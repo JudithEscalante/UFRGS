@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	xmlns:card_view="http://schemas.android.com/apk/res-auto"
-	android:orientation="vertical"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	android:orientation="vertical"
 	tools:context=".MainActivity">
 
 
@@ -17,74 +17,213 @@
    		android:layout_gravity="center"
    		android:visibility="invisible"/> -->
 
-	 <androidx.cardview.widget.CardView
+	<androidx.cardview.widget.CardView
 
-		android:layout_gravity="center"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_gravity="center"
 		android:layout_margin="4dp"
+		app:layout_constraintEnd_toEndOf="parent"
+
 		tools:ignore="MissingConstraints"
+		tools:layout_editor_absoluteY="-123dp">
 
-		>
-		<TextView
-			android:paddingTop="20dip"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="16sp"
-			android:textStyle="bold"
-			android:gravity="center"
-			android:text="Crime"
-			tools:ignore="MissingConstraints" />
-		<TableLayout
-			android:paddingTop="50dip"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:stretchColumns="*"
-			tools:ignore="MissingConstraints">
-			<TableRow>
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textSize="14sp"
-					android:text="X-Axis"
-					android:gravity="center"/>
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textSize="14sp"
-					android:text="Y-Axis"
-					android:gravity="center"/>
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textSize="14sp"
-					android:text="Z-Axis"
-					android:gravity="center"/>
-			</TableRow>
-			<TableRow>
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/x_axis"
-					android:gravity="center"/>
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/y_axis"
-					android:gravity="center"/>
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/z_axis"
-					android:gravity="center"/>
-			</TableRow>
-		</TableLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="horizontal">
 
-		 <com.github.mikephil.charting.charts.PieChart
-			 android:id="@+id/pieChart"
-			 android:layout_width="match_parent"
-			 android:layout_height="match_parent"></com.github.mikephil.charting.charts.PieChart>
-	 </androidx.cardview.widget.CardView>
+			<com.github.mikephil.charting.charts.PieChart
+				android:id="@+id/pieChart"
+				android:layout_width="402dp"
+				android:layout_height="match_parent">
+
+			</com.github.mikephil.charting.charts.PieChart>
+
+
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center"
+					android:text="Crime"
+					android:textSize="16sp"
+					android:textStyle="bold"
+					tools:ignore="MissingConstraints" />
+
+				<TableLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:stretchColumns="*"
+					tools:ignore="MissingConstraints">
+
+					<TableRow>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:text="X-Axis"
+							android:textSize="14sp" />
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:text="Y-Axis"
+							android:textSize="14sp" />
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:text="Z-Axis"
+							android:textSize="14sp" />
+
+					</TableRow>
+
+					<TableRow>
+
+						<TextView
+							android:id="@+id/x_axis"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center" />
+
+						<TextView
+							android:id="@+id/y_axis"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center" />
+
+						<TextView
+							android:id="@+id/z_axis"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center" />
+					</TableRow>
+				</TableLayout>
+
+				<TableLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<TableRow
+						android:layout_width="match_parent"
+						android:layout_height="match_parent">
+
+						<LinearLayout
+							android:layout_width="319dp"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<RadioGroup
+								android:layout_width="162dp"
+								android:layout_height="match_parent">
+
+								<RadioButton
+									android:id="@+id/radioButton"
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:text="RadioButton" />
+
+								<RadioButton
+									android:id="@+id/radioButton2"
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:text="RadioButton" />
+							</RadioGroup>
+
+							<androidx.core.widget.NestedScrollView
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:fillViewport="true">
+
+								<LinearLayout
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:orientation="vertical">
+
+									<Button
+										android:id="@+id/button1"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_1" />
+
+									<Button
+										android:id="@+id/button2"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_2" />
+
+									<Button
+										android:id="@+id/button3"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_3" />
+
+									<Button
+										android:id="@+id/button4"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_4" />
+
+									<Button
+										android:id="@+id/button5"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_5" />
+
+									<Button
+										android:id="@+id/button6"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_6" />
+
+									<Button
+										android:id="@+id/button7"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_7" />
+
+									<Button
+										android:id="@+id/button8"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_8" />
+
+									<Button
+										android:id="@+id/button9"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:text="Button_9" />
+								</LinearLayout>
+							</androidx.core.widget.NestedScrollView>
+
+						</LinearLayout>
+
+					</TableRow>
+
+					<TableRow
+						android:layout_width="match_parent"
+						android:layout_height="match_parent" />
+
+					<TableRow
+						android:layout_width="match_parent"
+						android:layout_height="match_parent" />
+				</TableLayout>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+
+	</androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

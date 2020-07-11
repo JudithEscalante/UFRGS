@@ -1,21 +1,21 @@
 package com.example.second;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
-import android.view.View;
+import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.mikephil.charting.charts.BubbleChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BubbleData;
+import com.github.mikephil.charting.data.BubbleDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     PieChart pieChart;
 
+    BubbleChart bubbleChart;
+    BubbleData bubbleData;
+    BubbleDataSet bubbleDataSet;
+    ArrayList bubbleEntries;
+
     /** Called when the activity is first created. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         pieChart=findViewById(R.id.pieChart);
         createPieChart();
+
+
+
 
     }
 
@@ -63,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
     }
+
+
 
     protected void onResume() {
         super.onResume();
