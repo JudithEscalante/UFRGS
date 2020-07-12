@@ -1,12 +1,16 @@
 package com.example.second;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +25,13 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -32,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private final float NOISE = (float) 0.5;
 
     PieChart pieChart;
-
+    List<String> scrollBarList = new ArrayList<>();
     BubbleChart bubbleChart;
     BubbleData bubbleData;
     BubbleDataSet bubbleDataSet;
@@ -51,7 +61,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pieChart=findViewById(R.id.pieChart);
         createPieChart();
 
-
+        try {
+            loadData();
+            createScrollBar();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -132,4 +147,60 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
     }
+
+    public void loadData() throws JSONException {
+
+        JSONObject json = loadJsonObjectFromAsset("file.json");
+        try {
+            JSONArray refArray = json.getJSONArray("dataCryme");
+            for(int i = 0; i< refArray.length(); i++){
+                String ref = refArray.getJSONObject(i).getString("Location");
+                if(!scrollBarList.contains(ref)){
+                    scrollBarList.add(ref);
+                }
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public JSONObject loadJsonObjectFromAsset(String assetName) {
+        try {
+            String json = loadStringFromAsset(assetName);
+            if (json != null)
+                return new JSONObject(json);
+        } catch (Exception e) {
+            Log.e("JsonUtils", e.toString());
+        }
+
+        return null;
+    }
+
+    private String loadStringFromAsset(String assetName) throws Exception {
+        AssetManager assetManager = getAssets();
+        InputStream is = assetManager.open(assetName);
+        int size = is.available();
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+        return new String(buffer, "UTF-8");
+    }
+
+    public void createScrollBar(){
+        LinearLayout listButtons = (LinearLayout) findViewById(R.id.scrollBarLocation);
+
+       for(int i = 0; i< scrollBarList.size() ; i++){
+            Button newButton = new Button(this);
+            newButton.setText(scrollBarList.get(i));
+            //newButton.setBackgroundColor(0xFF99D6D6);
+            newButton.setTextSize(10);
+           listButtons.addView(newButton);
+        }
+
+    }
+
 }

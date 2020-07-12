@@ -145,63 +145,10 @@
 								android:fillViewport="true">
 
 								<LinearLayout
+									android:id="@+id/scrollBarLocation"
 									android:layout_width="match_parent"
 									android:layout_height="wrap_content"
 									android:orientation="vertical">
-
-									<Button
-										android:id="@+id/button1"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_1" />
-
-									<Button
-										android:id="@+id/button2"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_2" />
-
-									<Button
-										android:id="@+id/button3"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_3" />
-
-									<Button
-										android:id="@+id/button4"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_4" />
-
-									<Button
-										android:id="@+id/button5"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_5" />
-
-									<Button
-										android:id="@+id/button6"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_6" />
-
-									<Button
-										android:id="@+id/button7"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_7" />
-
-									<Button
-										android:id="@+id/button8"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_8" />
-
-									<Button
-										android:id="@+id/button9"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:text="Button_9" />
 								</LinearLayout>
 							</androidx.core.widget.NestedScrollView>
 
