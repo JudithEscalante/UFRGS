@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -13,13 +14,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.mikephil.charting.charts.BubbleChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.BubbleData;
-import com.github.mikephil.charting.data.BubbleDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -31,7 +30,10 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -43,10 +45,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     PieChart pieChart;
     List<String> scrollBarList = new ArrayList<>();
-    BubbleChart bubbleChart;
-    BubbleData bubbleData;
-    BubbleDataSet bubbleDataSet;
-    ArrayList bubbleEntries;
+    List<String> crimesList = new ArrayList<>();
+    HashMap<String, Integer> totalCrimes = new HashMap<String, Integer>();
+
 
     /** Called when the activity is first created. */
     @Override
@@ -64,8 +65,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         try {
             loadData();
             createScrollBar();
+            //Log.d("msg",crimesList.toString());
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        for(String i : totalCrimes.keySet()){
+            Log.d("msg","key: " + i + " value: " + totalCrimes.get(i));
         }
 
 
@@ -77,12 +83,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         pieChart.setDescription(description);
         ArrayList<PieEntry> pieEntries= new ArrayList<>();
-        pieEntries.add(new PieEntry(2,3));
-        pieEntries.add(new PieEntry(3,8));
-        pieEntries.add(new PieEntry(6,7));
+
+        for(String i : totalCrimes.keySet()){
+            Integer value = totalCrimes.get(i);
+            pieEntries.add(new PieEntry( (float) value, i));
+        }
+        //pieEntries.add(new PieEntry(2,3));
+        //pieEntries.add(new PieEntry(3,8));
+        //pieEntries.add(new PieEntry(6,7));
+
 
         PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
         pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
+       
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
     }
@@ -148,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadData() throws JSONException {
 
         JSONObject json = loadJsonObjectFromAsset("file.json");
@@ -159,6 +173,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     scrollBarList.add(ref);
                 }
 
+                String crime = refArray.getJSONObject(i).getString("CrimeType");
+                if(!crimesList.contains(crime)){
+                    crimesList.add(crime);
+                    totalCrimes.put(crime, 1);
+                }else{
+                    Integer num = totalCrimes.get(crime);
+                    Integer newNum = num + 1;
+                    totalCrimes.replace(crime, newNum);
+                }
             }
 
         } catch (JSONException e) {
