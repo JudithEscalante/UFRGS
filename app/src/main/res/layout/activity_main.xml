@@ -123,20 +123,22 @@
 							android:orientation="horizontal">
 
 							<RadioGroup
+								android:id="@+id/radioGroup"
 								android:layout_width="131dp"
 								android:layout_height="match_parent">
 
 								<RadioButton
-									android:id="@+id/radioButton"
+									android:id="@+id/radioButtonLocation"
 									android:layout_width="match_parent"
 									android:layout_height="wrap_content"
-									android:text="RadioButton" />
+									android:text="Location"
+									android:checked="true" />
 
 								<RadioButton
-									android:id="@+id/radioButton2"
+									android:id="@+id/radioButtonCrime"
 									android:layout_width="match_parent"
 									android:layout_height="wrap_content"
-									android:text="RadioButton" />
+									android:text="Crime"  />
 							</RadioGroup>
 
 							<androidx.core.widget.NestedScrollView
@@ -145,7 +147,7 @@
 								android:fillViewport="true">
 
 								<LinearLayout
-									android:id="@+id/scrollBarLocation"
+									android:id="@+id/scrollBar"
 									android:layout_width="match_parent"
 									android:layout_height="wrap_content"
 									android:orientation="vertical"></LinearLayout>

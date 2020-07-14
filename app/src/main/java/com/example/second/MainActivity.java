@@ -1,5 +1,6 @@
 package com.example.second;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
@@ -12,8 +13,14 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,24 +39,28 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
+    private static final String TAG = "MyActivity";
+    RadioGroup radioGroup;
     private float mLastX, mLastY, mLastZ;
     private boolean mInitialized;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private final float NOISE = (float) 0.5;
-
+    int optionLocation = 1;
+    int optionCrime= 2;
     PieChart pieChart;
-    List<String> scrollBarList = new ArrayList<>();
+    List<String> scrollBarLocation = new ArrayList<>();
     List<String> crimesList = new ArrayList<>();
-    HashMap<String, Integer> totalCrimes = new HashMap<String, Integer>();
+    HashMap<String, Integer> totalCrimes = new HashMap<String, Integer>(50, 10);
+
 
 
     /** Called when the activity is first created. */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,45 +71,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.registerListener(this, mAccelerometer , SensorManager.SENSOR_DELAY_NORMAL);
 
         pieChart=findViewById(R.id.pieChart);
-        createPieChart();
+
 
         try {
             loadData();
-            createScrollBar();
-            //Log.d("msg",crimesList.toString());
+            createScrollBar(optionLocation);
+            createPieChart();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        for(String i : totalCrimes.keySet()){
-            Log.d("msg","key: " + i + " value: " + totalCrimes.get(i));
-        }
+        checkedOnRadioButton();
 
 
     }
+    public void checkedOnRadioButton() {
+        radioGroup =(RadioGroup) findViewById(R.id.radioGroup);
 
-    private void createPieChart() {
-        Description description = new Description();
-        description.setText("Crime type");
-
-        pieChart.setDescription(description);
-        ArrayList<PieEntry> pieEntries= new ArrayList<>();
-
-        for(String i : totalCrimes.keySet()){
-            Integer value = totalCrimes.get(i);
-            pieEntries.add(new PieEntry( (float) value, i));
-        }
-        //pieEntries.add(new PieEntry(2,3));
-        //pieEntries.add(new PieEntry(3,8));
-        //pieEntries.add(new PieEntry(6,7));
-
-
-        PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
-        pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
-       
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onCheckedChanged (RadioGroup group,@IdRes int checkedId){
+                if (checkedId == R.id.radioButtonLocation) {
+                    createScrollBar(optionLocation);
+                }else {
+                    createScrollBar(optionCrime);
+                }
+            }
+        });
     }
+
 
 
 
@@ -163,25 +166,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadData() throws JSONException {
-
         JSONObject json = loadJsonObjectFromAsset("file.json");
         try {
-            JSONArray refArray = json.getJSONArray("dataCryme");
-            for(int i = 0; i< refArray.length(); i++){
-                String ref = refArray.getJSONObject(i).getString("Location");
-                if(!scrollBarList.contains(ref)){
-                    scrollBarList.add(ref);
+            JSONArray principalArray = json.getJSONArray("dataCryme");
+            for(int i = 0; i< principalArray.length(); i++){
+                String locationName = principalArray.getJSONObject(i).getString("Location");
+                if(!scrollBarLocation.contains(locationName)){
+                    scrollBarLocation.add(locationName);
                 }
 
-                String crime = refArray.getJSONObject(i).getString("CrimeType");
-                if(!crimesList.contains(crime)){
+                String crime = principalArray.getJSONObject(i).getString("CrimeType");
+                /*if(!crimesList.contains(crime)){
                     crimesList.add(crime);
                     totalCrimes.put(crime, 1);
                 }else{
                     Integer num = totalCrimes.get(crime);
                     Integer newNum = num + 1;
                     totalCrimes.replace(crime, newNum);
-                }
+                }*/
+                Integer w = totalCrimes.get(crime);
+                if(w == null) totalCrimes.put(crime, 1);
+                else totalCrimes.put(crime, w + 1);
             }
 
         } catch (JSONException e) {
@@ -213,16 +218,107 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return new String(buffer, "UTF-8");
     }
 
-    public void createScrollBar(){
-        LinearLayout listButtons = (LinearLayout) findViewById(R.id.scrollBarLocation);
+    public void createScrollBar(int option){
+        LinearLayout listButtons = (LinearLayout) findViewById(R.id.scrollBar);
 
-       for(int i = 0; i< scrollBarList.size() ; i++){
-            Button newButton = new Button(this);
-            newButton.setText(scrollBarList.get(i));
-            //newButton.setBackgroundColor(0xFF99D6D6);
-            newButton.setTextSize(10);
-           listButtons.addView(newButton);
+        if (option == 1){
+            listButtons.removeAllViews();
+            Button[] dynamic_button = new Button[scrollBarLocation.size()];
+            for(int i = 0; i< scrollBarLocation.size() ; i++){
+                dynamic_button[i] = new Button(this);
+                dynamic_button[i].setText(scrollBarLocation.get(i));
+                dynamic_button[i].setId(i);
+                //newButton.setBackgroundColor(0xFF99D6D6);
+                dynamic_button[i].setTextSize(10);
+                listButtons.addView(dynamic_button[i]);
+                dynamic_button[i].setOnClickListener(new OnClickListener() {
+                    public void onClick(View v) {
+                        try {
+                            AnotherPieChart(((Button)v).getText().toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i("Clicked", ((Button)v).getText().toString());
+                    }
+                });
+
+            }
         }
+        else{
+            listButtons.removeAllViews();
+            Button[] dynamic_button = new Button[totalCrimes.size()];
+            int i=0;
+            for ( String key : totalCrimes.keySet() ) {
+                dynamic_button[i] = new Button(this);
+                dynamic_button[i].setText(key);
+                //newButton.setBackgroundColor(0xFF99D6D6);
+                dynamic_button[i].setTextSize(10);
+                dynamic_button[i].setId(i);
+                listButtons.addView(dynamic_button[i]);
+                dynamic_button[i].setOnClickListener(new OnClickListener() {
+                    public void onClick(View v) {
+                        Log.i("Clicked", ((Button)v).getText().toString());
+                    }
+                });
+                i++;
+            }
+        }
+    }
+
+    private void createPieChart() {
+        Description description = new Description();
+        description.setText("Crime type");
+
+        pieChart.setDescription(description);
+        ArrayList<PieEntry> pieEntries= new ArrayList<>();
+
+        for(String i : totalCrimes.keySet()){
+            Integer value = totalCrimes.get(i);
+            pieEntries.add(new PieEntry( (float) value, i));
+        }
+
+
+
+        PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
+        pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+    }
+
+    private void AnotherPieChart(String filter) throws JSONException {
+        HashMap<String, Integer> crimes = new HashMap<String, Integer>(50, 10);
+        JSONObject json = loadJsonObjectFromAsset("file.json");
+        JSONArray principalArray = json.getJSONArray("dataCryme");
+        for(int i = 0; i< principalArray.length(); i++) {
+            String locationName = principalArray.getJSONObject(i).getString("Location");
+            String crimeType = principalArray.getJSONObject(i).getString("CrimeType");
+
+            if (filter.equals(locationName)) {
+                Integer w = crimes.get(crimeType);
+                if (w == null) crimes.put(crimeType, 1);
+                else crimes.put(crimeType, w + 1);
+
+            }
+
+        }
+
+        Description description = new Description();
+        description.setText("Crime type");
+
+        pieChart.setDescription(description);
+        ArrayList<PieEntry> pieEntries= new ArrayList<>();
+
+        for(String i : crimes.keySet()){
+            Integer value = crimes.get(i);
+            pieEntries.add(new PieEntry( (float) value, i));
+        }
+
+        PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
+        pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
 
     }
 
