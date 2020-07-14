@@ -1,6 +1,5 @@
 package com.example.second;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
@@ -10,15 +9,13 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
@@ -94,8 +91,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onCheckedChanged (RadioGroup group,@IdRes int checkedId){
                 if (checkedId == R.id.radioButtonLocation) {
+                    createPieChart();
+                    pieChart.notifyDataSetChanged();
+                    pieChart.invalidate();
                     createScrollBar(optionLocation);
                 }else {
+                    createPieChart();
+                    pieChart.notifyDataSetChanged();
+                    pieChart.invalidate();
                     createScrollBar(optionCrime);
                 }
             }
@@ -235,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     public void onClick(View v) {
                         try {
                             AnotherPieChart(((Button)v).getText().toString());
+                            pieChart.notifyDataSetChanged();
+                            pieChart.invalidate();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -249,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Button[] dynamic_button = new Button[totalCrimes.size()];
             int i=0;
             for ( String key : totalCrimes.keySet() ) {
+                final String keyValue = key;
                 dynamic_button[i] = new Button(this);
                 dynamic_button[i].setText(key);
                 //newButton.setBackgroundColor(0xFF99D6D6);
@@ -257,7 +263,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 listButtons.addView(dynamic_button[i]);
                 dynamic_button[i].setOnClickListener(new OnClickListener() {
                     public void onClick(View v) {
-                        Log.i("Clicked", ((Button)v).getText().toString());
+                        //show only the option selected
+                        try{
+                            Description description = new Description();
+                            description.setText("Crime type");
+                            pieChart.setDescription(description);
+                            ArrayList<PieEntry> pieEntries= new ArrayList<>();
+                            pieEntries.add(new PieEntry( (float) totalCrimes.get(keyValue), keyValue));
+                            PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
+                            pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
+                            PieData pieData = new PieData(pieDataSet);
+                            pieChart.setData(pieData);
+                            pieChart.notifyDataSetChanged();
+                            pieChart.invalidate();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        Log.i("Clicked", ((Button)v).getText().toString() + " " + totalCrimes.get(keyValue).toString());
                     }
                 });
                 i++;
@@ -276,8 +298,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Integer value = totalCrimes.get(i);
             pieEntries.add(new PieEntry( (float) value, i));
         }
-
-
 
         PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
         pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
