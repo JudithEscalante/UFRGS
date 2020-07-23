@@ -2,6 +2,7 @@ package com.example.second;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -116,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
         listButtons.setNestedScrollingEnabled(true);
 
+        mLayout = (NestedScrollView) findViewById(R.id.scrollView);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 
         /*listButtons.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -205,15 +209,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 if(!buttonClicked){
-                    if(scrollY<0 || scrollY>2950){
+                    if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264
                         if(scrollY<0){
                             listButtons.scrollTo(scrollX,scrollY+velocity);
+                            mLayout.setBackgroundColor(Color.GREEN);
                         }
-                        if(scrollY>2950){
+                        RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
+                        RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
+                        if(location.isChecked() && scrollY>2950){
                             listButtons.scrollTo(scrollX,scrollY-velocity);
+                            mLayout.setBackgroundColor(Color.BLUE);
+                        }
+                        if(crime.isChecked() && scrollY>264){
+                            listButtons.scrollTo(scrollX,scrollY-velocity);
+                            mLayout.setBackgroundColor(Color.BLUE);
                         }
                     }else{
-                        if(acceX > 0 && acceZ < 10 ) {
+                        //if(acceX > 0 && acceZ < 10 ) {
+                        if(acceZ > 2 ) {
                             //Scroll to Top
                                     listButtons.scrollTo(scrollX,scrollY+velocity);
                                     listButtons.computeScroll();
@@ -221,8 +234,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Log.i("Sensor", "scroll Up");
                                     Log.i("Sensor", "Scroll X: " + scrollX);
                                     Log.i("Sensor", "Scroll Y: " + scrollY);
+                                    mLayout.setBackgroundColor(Color.GREEN);
                         }
-                        else if (acceX <= 10 && acceZ >= 0 ) {
+                        //else if (acceX <= 10 && acceZ >= 0 ) {
+                        else if(acceZ >0 && acceZ <=1){
+                            listButtons.scrollBy(0, 0);
+                            listButtons.computeScroll();
+                            listButtons.invalidate();
+                            Log.i("Sensor", "scroll Stop");
+                            mLayout.setBackgroundColor(Color.TRANSPARENT);
+                            buttonClicked = false;
+                        }
+                        else if (acceZ <= -1 ) {
                             //Scroll to Bottom
                                     listButtons.scrollTo(scrollX,scrollY-velocity);
                                     listButtons.computeScroll();
@@ -230,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Log.i("Sensor", "scroll Bottom");
                                     Log.i("Sensor", "Scroll X: " + scrollX);
                                     Log.i("Sensor", "Scroll Y: " + scrollY);
+                                    mLayout.setBackgroundColor(Color.BLUE);
                         }
                     }
                 }else{
@@ -237,59 +261,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             listButtons.computeScroll();
                             listButtons.invalidate();
                             Log.i("Sensor", "scroll Stop");
+                            mLayout.setBackgroundColor(Color.TRANSPARENT);
                             buttonClicked = false;
                 }
             }
         });
 
-      /*  if(!buttonClicked){
-            if(scrollY<0 || scrollY>2950){
-                buttonClicked = true;
-            }else{
-                if(acceX > 0 && acceZ < 10 ) {
-                    //Scroll to Top
-                    listButtons.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            listButtons.scrollTo(scrollX,scrollY+2);
-                            listButtons.computeScroll();
-                            listButtons.invalidate();
-                            Log.i("Sensor", "scroll Up");
-                            Log.i("Sensor", "Scroll X: " + scrollX);
-                            Log.i("Sensor", "Scroll Y: " + scrollY);
-                        }
-                    });
-                }
-                else if (acceX <= 10 && acceZ >= 0 ) {
-                    //Scroll to Bottom
 
-                    listButtons.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            listButtons.scrollTo(scrollX,scrollY-2);
-                            listButtons.computeScroll();
-                            listButtons.invalidate();
-                            Log.i("Sensor", "scroll Bottom");
-                            Log.i("Sensor", "Scroll X: " + scrollX);
-                            Log.i("Sensor", "Scroll Y: " + scrollY);
-                            //Log.i("Sensor", "size: "+ scrollBarLocation.size());
-                        }
-                    });
-                }
-            }
-        }else {
-                listButtons.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listButtons.scrollBy(0, 0);
-                        listButtons.computeScroll();
-                        listButtons.invalidate();
-                        Log.i("Sensor", "scroll Stop");
-
-                    }
-                });
-            }   */
 
 
         //print values on screen
