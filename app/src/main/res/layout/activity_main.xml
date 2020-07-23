@@ -114,36 +114,36 @@
 					android:layout_height="match_parent">
 
 					<TableRow
-						android:layout_width="match_parent"
+						android:layout_width="293dp"
 						android:layout_height="match_parent">
 
 						<LinearLayout
-							android:layout_width="274dp"
+							android:layout_width="293dp"
 							android:layout_height="match_parent"
 							android:orientation="horizontal">
 
 							<RadioGroup
 								android:id="@+id/radioGroup"
-								android:layout_width="131dp"
+								android:layout_width="96dp"
 								android:layout_height="match_parent">
 
 								<RadioButton
 									android:id="@+id/radioButtonLocation"
-									android:layout_width="109dp"
+									android:layout_width="wrap_content"
 									android:layout_height="wrap_content"
 									android:checked="true"
 									android:text="Location" />
 
 								<RadioButton
 									android:id="@+id/radioButtonCrime"
-									android:layout_width="107dp"
+									android:layout_width="84dp"
 									android:layout_height="wrap_content"
 									android:text="Crime" />
 							</RadioGroup>
 
 							<androidx.core.widget.NestedScrollView
 								android:id="@+id/scrollView"
-								android:layout_width="138dp"
+								android:layout_width="130dp"
 								android:layout_height="match_parent"
 								android:clipToPadding="false"
 								android:fillViewport="true">

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -96,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //****************************
 
 
+
     /** Called when the activity is first created. */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
         listButtons.setNestedScrollingEnabled(true);
 
-        listButtons.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+       /* listButtons.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
                 int scrollY = listButtons.getScrollY();
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Log.i("Sensor", "Scroll X: " + scrollX);
                 Log.i("Sensor", "Scroll Y: " + scrollY);
             }
-        });
+        });  */
 
 
         //************* pie chart ****************
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_MAX);
     }
 
     @Override
@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor arg0, int arg1) {
         // TODO Auto-generated method stub
     }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -204,10 +205,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //Log.i("Sensor", "mCurrentPosition: " + mCurrentPosition);
         //Log.i("Sensor", "mOrientationValues[0]: " + mOrientationValues[0]);
+
+
+
         Log.i("Sensor", "Accel: " + event.values[0]);
 
         float acceX = event.values[0];
         float acceZ = event.values[2];
+
+
+
         if(acceX > 0 && acceZ < 10) {
             //Scroll to Top
             //mListener.onTiltUp();
@@ -217,10 +224,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 public void run() {
                     int scrollY = listButtons.getScrollY();
                     int scrollX = listButtons.getScrollX();
-                    listButtons.scrollBy(scrollX,scrollY+10);
+
+                    listButtons.scrollTo(scrollX,scrollY+1);
                     listButtons.computeScroll();
                     listButtons.invalidate();
                     Log.i("Sensor", "scroll Up");
+                    Log.i("Sensor", "Scroll X: " + scrollX);
+                    Log.i("Sensor", "Scroll Y: " + scrollY);
                 }
             });
         }
@@ -233,10 +243,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 public void run() {
                     int scrollY = listButtons.getScrollY();
                     int scrollX = listButtons.getScrollX();
-                    listButtons.scrollBy(scrollX,scrollY-10);
+                    listButtons.scrollTo(scrollX,scrollY-1);
                     listButtons.computeScroll();
                     listButtons.invalidate();
                     Log.i("Sensor", "scroll Bottom");
+                    Log.i("Sensor", "Scroll X: " + scrollX);
+                    Log.i("Sensor", "Scroll Y: " + scrollY);
+                    //Log.i("Sensor", "size: "+ scrollBarLocation.size());
+                }
+            });
+        }else{
+            listButtons.post(new Runnable() {
+                @Override
+                public void run() {
+                    int scrollY = listButtons.getScrollY();
+                    int scrollX = listButtons.getScrollX();
+                    listButtons.scrollBy(scrollX,scrollY);
+                    listButtons.computeScroll();
+                    listButtons.invalidate();
+                    Log.i("Sensor", "scroll Stop");
+
                 }
             });
         }
