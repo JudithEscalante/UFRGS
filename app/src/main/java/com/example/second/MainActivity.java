@@ -3,7 +3,6 @@ package com.example.second;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -183,6 +182,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final int scrollY = listButtons.getScrollY();
         final int scrollX = listButtons.getScrollX();
 
+        final Button button_move_up = (Button) findViewById(R.id.button_move_up);
+        final Button button_move_down = (Button) findViewById(R.id.button_move_down);
+
         listButtons.post(new Runnable() {
             @Override
             public void run() {
@@ -190,17 +192,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264
                         if(scrollY<0){
                             listButtons.scrollTo(scrollX,scrollY+velocity);
-                            mLayout.setBackgroundColor(Color.GREEN);
+                            //mLayout.setBackgroundColor(Color.GREEN);
+                            button_move_up.setVisibility(View.VISIBLE);
+                            button_move_down.setVisibility(View.INVISIBLE);
+
                         }
                         RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
                         RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
                         if(location.isChecked() && scrollY>2950){
                             listButtons.scrollTo(scrollX,scrollY-velocity);
-                            mLayout.setBackgroundColor(Color.BLUE);
+                            //mLayout.setBackgroundColor(Color.BLUE);
+                            button_move_up.setVisibility(View.INVISIBLE);
+                            button_move_down.setVisibility(View.VISIBLE);
                         }
                         if(crime.isChecked() && scrollY>264){
                             listButtons.scrollTo(scrollX,scrollY-velocity);
-                            mLayout.setBackgroundColor(Color.BLUE);
+                            button_move_up.setVisibility(View.INVISIBLE);
+                            button_move_down.setVisibility(View.VISIBLE);
                         }
                     }else{
                         //if(acceX > 0 && acceZ < 10 ) {
@@ -212,7 +220,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Log.i("Sensor", "scroll Up");
                                     Log.i("Sensor", "Scroll X: " + scrollX);
                                     Log.i("Sensor", "Scroll Y: " + scrollY);
-                                    mLayout.setBackgroundColor(Color.GREEN);
+                                    //mLayout.setBackgroundColor(Color.GREEN);
+                                    button_move_up.setVisibility(View.VISIBLE);
+                                    button_move_down.setVisibility(View.INVISIBLE);
                         }
                         //else if (acceX <= 10 && acceZ >= 0 ) {
                         else if(acceZ >0 && acceZ <=1){
@@ -220,7 +230,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             listButtons.computeScroll();
                             listButtons.invalidate();
                             Log.i("Sensor", "scroll Stop");
-                            mLayout.setBackgroundColor(Color.TRANSPARENT);
+                            //mLayout.setBackgroundColor(Color.TRANSPARENT);
+                            button_move_up.setVisibility(View.INVISIBLE);
+                            button_move_down.setVisibility(View.INVISIBLE);
                             buttonClicked = false;
                         }
                         else if (acceZ <= -1 ) {
@@ -231,7 +243,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Log.i("Sensor", "scroll Bottom");
                                     Log.i("Sensor", "Scroll X: " + scrollX);
                                     Log.i("Sensor", "Scroll Y: " + scrollY);
-                                    mLayout.setBackgroundColor(Color.BLUE);
+                                    //mLayout.setBackgroundColor(Color.BLUE);
+                                    button_move_up.setVisibility(View.INVISIBLE);
+                                    button_move_down.setVisibility(View.VISIBLE);
                         }
                     }
                 }else{
@@ -239,7 +253,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             listButtons.computeScroll();
                             listButtons.invalidate();
                             Log.i("Sensor", "scroll Stop");
-                            mLayout.setBackgroundColor(Color.TRANSPARENT);
+                            //mLayout.setBackgroundColor(Color.TRANSPARENT);
+                            button_move_up.setVisibility(View.INVISIBLE);
+                            button_move_down.setVisibility(View.INVISIBLE);
                             buttonClicked = false;
                 }
             }
