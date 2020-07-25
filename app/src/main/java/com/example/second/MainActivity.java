@@ -3,6 +3,7 @@ package com.example.second;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -23,11 +24,20 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
@@ -54,9 +64,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     int optionLocation = 1;
     int optionCrime= 2;
     PieChart pieChart;
+    HorizontalBarChart horizontalBarChart;
     List<String> scrollBarLocation = new ArrayList<>();
     List<String> crimesList = new ArrayList<>();
     HashMap<String, Integer> totalCrimes = new HashMap<String, Integer>(50, 10);
+    HashMap<String, Integer> PeriodCrimes = new HashMap<String, Integer>(50, 10);
     LinearLayout listButtons;
     private boolean buttonClicked = false;
 
@@ -116,14 +128,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });   */
 
 
-        //************* pie chart ****************
+        //************* Chart ****************
         pieChart=findViewById(R.id.pieChart);
+        horizontalBarChart = findViewById(R.id.horizontalChart);
 
 
         try {
             loadData();
             createScrollBar(optionLocation);
             createPieChart();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -146,14 +160,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onCheckedChanged (RadioGroup group,@IdRes int checkedId){
                 if (checkedId == R.id.radioButtonLocation) {
+                    pieChart.setVisibility(View.VISIBLE);
+                    horizontalBarChart.setVisibility(View.INVISIBLE);
                     createPieChart();
                     pieChart.notifyDataSetChanged();
                     pieChart.invalidate();
+
                     createScrollBar(optionLocation);
                 }else {
-                    createPieChart();
-                    pieChart.notifyDataSetChanged();
-                    pieChart.invalidate();
+                    horizontalBarChart.setVisibility(View.VISIBLE);
+                    pieChart.setVisibility(View.INVISIBLE);
+                    createHorizontalChart();
+                    horizontalBarChart.notifyDataSetChanged();
+                    horizontalBarChart.invalidate();
                     createScrollBar(optionCrime);
                 }
             }
@@ -183,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        Log.i("Sensor", "Accel: " + event.values[0]);
+       // Log.i("Sensor", "Accel: " + event.values[0]);
 
         final float acceX = event.values[0];
         final float acceZ = event.values[2];
@@ -328,17 +347,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
 
                 String crime = principalArray.getJSONObject(i).getString("CrimeType");
-                /*if(!crimesList.contains(crime)){
-                    crimesList.add(crime);
-                    totalCrimes.put(crime, 1);
-                }else{
-                    Integer num = totalCrimes.get(crime);
-                    Integer newNum = num + 1;
-                    totalCrimes.replace(crime, newNum);
-                }*/
                 Integer w = totalCrimes.get(crime);
                 if(w == null) totalCrimes.put(crime, 1);
                 else totalCrimes.put(crime, w + 1);
+
+                String period = principalArray.getJSONObject(i).getString("Period");
+                Integer z = PeriodCrimes.get(period);
+                if(z == null) PeriodCrimes.put(period, 1);
+                else PeriodCrimes.put(period, z + 1);
+
+
             }
 
         } catch (JSONException e) {
@@ -394,7 +412,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i("Clicked", ((Button)v).getText().toString());
                         buttonClicked = true;
                     }
                 });
@@ -418,7 +435,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     public void onClick(View v) {
                         //show only the option selected
                         try{
-                            Description description = new Description();
+                            createHorizontalAnotherChart(((Button)v).getText().toString());
+                            horizontalBarChart.notifyDataSetChanged();
+                            horizontalBarChart.invalidate();
+                           /* Description description = new Description();
                             description.setText("Crime type");
                             pieChart.setDescription(description);
                             ArrayList<PieEntry> pieEntries= new ArrayList<>();
@@ -428,11 +448,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             PieData pieData = new PieData(pieDataSet);
                             pieChart.setData(pieData);
                             pieChart.notifyDataSetChanged();
-                            pieChart.invalidate();
+                            pieChart.invalidate();*/
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-                        Log.i("Clicked", ((Button)v).getText().toString() + " " + totalCrimes.get(keyValue).toString());
                         buttonClicked = true;
                     }
                 });
@@ -443,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void createPieChart() {
         Description description = new Description();
-        description.setText("Crime type");
+        description.setText("");
 
         pieChart.setDescription(description);
         ArrayList<PieEntry> pieEntries= new ArrayList<>();
@@ -457,6 +476,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
 
         PieData pieData = new PieData(pieDataSet);
+        Legend legend = pieChart.getLegend();
+        legend.setWordWrapEnabled(true);
+        pieData.setValueTextSize(11f);
+        pieData.setValueTextColor(Color.WHITE);
+
+        pieChart.setDrawSliceText(false);
         pieChart.setData(pieData);
     }
 
@@ -478,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         Description description = new Description();
-        description.setText("Crime type");
+        description.setText("");
 
         pieChart.setDescription(description);
         ArrayList<PieEntry> pieEntries= new ArrayList<>();
@@ -492,9 +517,104 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
 
         PieData pieData = new PieData(pieDataSet);
+        Legend legend = pieChart.getLegend();
+        legend.setWordWrapEnabled(true);
+        pieData.setValueTextSize(11f);
+        pieData.setValueTextColor(Color.WHITE);
+
+        pieChart.setDrawSliceText(false);
         pieChart.setData(pieData);
 
     }
+
+    private void createHorizontalChart(){
+
+        float barWidth = 19f;
+        float spaceForBar = 1f;
+        ArrayList<String> xAxisLables = new ArrayList();
+        ArrayList<BarEntry> values = new ArrayList<>();
+         int z =1;
+        for(String i : PeriodCrimes.keySet()){
+            Integer value = PeriodCrimes.get(i);
+            values.add(new BarEntry(z * spaceForBar , (float) value));
+            xAxisLables.add(i);
+            z++;
+        }
+
+        BarDataSet set1;
+        set1= new BarDataSet(values,"Period of day");
+        set1.setColors(ColorTemplate.COLORFUL_COLORS);
+        BarData data = new BarData(set1);
+
+        XAxis xAxis = horizontalBarChart.getXAxis();
+
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLables));
+
+        horizontalBarChart.setData(data);
+        settingsChart();
+
+
+
+    }
+    private void createHorizontalAnotherChart(String filter) throws JSONException {
+        HashMap<String, Integer> periods = new HashMap<String, Integer>(50, 10);
+        JSONObject json = loadJsonObjectFromAsset("file.json");
+        JSONArray principalArray = json.getJSONArray("dataCryme");
+        for(int i = 0; i< principalArray.length(); i++) {
+            String period= principalArray.getJSONObject(i).getString("Period");
+            String crimeType = principalArray.getJSONObject(i).getString("CrimeType");
+
+            if (filter.equals(crimeType)) {
+                Integer w = periods.get(period);
+                if (w == null) periods.put(period, 1);
+                else periods.put(period, w + 1);
+            }
+
+        }
+
+        float barWidth = 19f;
+        float spaceForBar = 1f;
+        ArrayList<String> xAxisLables = new ArrayList();
+        ArrayList<BarEntry> values = new ArrayList<>();
+        int z =1;
+        for(String i : periods.keySet()){
+            Integer value = periods.get(i);
+            values.add(new BarEntry(z * spaceForBar , (float) value));
+            xAxisLables.add(i);
+            z++;
+        }
+
+        BarDataSet set1;
+        set1= new BarDataSet(values,"Period of day");
+        set1.setColors(ColorTemplate.COLORFUL_COLORS);
+        BarData data = new BarData(set1);
+        XAxis xAxis = horizontalBarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLables));
+        horizontalBarChart.setData(data);
+        settingsChart();
+
+
+    }
+
+    private void settingsChart(){
+        horizontalBarChart.getDescription().setEnabled(false);
+
+        YAxis yl = horizontalBarChart.getAxisLeft();
+        yl.setDrawAxisLine(false);
+        yl.setDrawGridLines(false);
+        yl.setAxisMinimum(0f);
+
+        YAxis yr = horizontalBarChart.getAxisRight();
+        yr.setDrawAxisLine(true);
+        yr.setDrawGridLines(false);
+        yr.setAxisMinimum(0f);
+    }
+
+
+
+
+
+
 
 
 
