@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Menu extends AppCompatActivity {
 
     private Button testA;
+    private Button testB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,10 +19,16 @@ public class Menu extends AppCompatActivity {
         testA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openNewActivity();
+                openNewActivityTestA();
             }
         });
-
+        testB = (Button) findViewById(R.id.buttonTestB);
+        testB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNewActivityTestB();
+            }
+        });
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -35,8 +42,13 @@ public class Menu extends AppCompatActivity {
         });   */
     }
 
-    public void openNewActivity(){
+    public void openNewActivityTestA(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openNewActivityTestB(){
+        Intent intent = new Intent(this, ActivitytestB.class);
         startActivity(intent);
     }
 }

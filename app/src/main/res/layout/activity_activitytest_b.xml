@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitytestB">
+
+
+    <androidx.cardview.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="-123dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="402dp"
+                android:layout_height="match_parent">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!--	<TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Crime"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:ignore="MissingConstraints" />   -->
+
+
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    tools:ignore="MissingConstraints">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <RadioGroup
+                                android:id="@+id/radioGroup"
+                                android:layout_width="96dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="bottom|start"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                >
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+
+                                    android:text="Location" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonCrime"
+                                    android:layout_width="84dp"
+                                    android:layout_height="wrap_content"
+
+                                    android:text="Crime" />
+                            </RadioGroup>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/menu"
+                            android:layout_gravity="end"
+                            android:background="@drawable/menu_svg_small" />
+                    </TableRow>
+
+                    <!--<TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="X-Axis"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Y-Axis"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Z-Axis"
+                            android:textSize="14sp" />
+
+                    </TableRow> -->
+
+                    <!--<TableRow>
+
+                        <TextView
+                            android:id="@+id/x_axis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/y_axis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/z_axis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center" />
+                    </TableRow> -->
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--<Button
+                                android:id="@+id/button2"
+                                android:layout_width="103dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Button" /> -->
+
+                    <TableRow
+                        android:layout_width="263dp"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="256dp"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <TableRow
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <Button
+                                        android:id="@+id/button_move_up"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/arrow_up"
+                                        android:text=""
+                                        android:visibility="invisible" />
+
+                                    <Button
+                                        android:id="@+id/button_move_down"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/arrow_down"
+                                        android:text=""
+                                        android:visibility="invisible" />
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="141dp"
+                                android:layout_height="match_parent">
+
+                                <androidx.core.widget.NestedScrollView
+                                    android:id="@+id/scrollView"
+                                    android:layout_width="130dp"
+                                    android:layout_height="match_parent"
+                                    android:clipToPadding="true">
+
+                                    <LinearLayout
+                                        android:id="@+id/scrollBar"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"></LinearLayout>
+                                </androidx.core.widget.NestedScrollView>
+                            </TableRow>
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+
+                </TableLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="58dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|start"
+                    android:layout_marginTop="200dp"
+                    android:background="@drawable/menu_small" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

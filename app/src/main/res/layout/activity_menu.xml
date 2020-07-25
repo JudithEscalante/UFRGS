@@ -41,12 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="150dp"
-                android:text="Teste A" />
+                android:text="Teste A"
+                android:background="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/buttonTestB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_bright"
                 android:text="Teste B" />
         </LinearLayout>
 

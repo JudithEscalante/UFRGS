@@ -4,18 +4,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.IdRes;
@@ -39,12 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+public class ActivitytestB extends AppCompatActivity {
 
-
-
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
-
-    private static final String TAG = "MyActivity";
     RadioGroup radioGroup;
     private float mLastX, mLastY, mLastZ;
     private boolean mInitialized = false;
@@ -68,14 +59,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int velocity = 3;
 
 
-
-
     /** Called when the activity is first created. */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_activitytest_b);
         Button menu = (Button) findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,30 +79,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
-
+        listButtons.setNestedScrollingEnabled(true);
 
         mLayout = (NestedScrollView) findViewById(R.id.scrollView);
-        mLayout.setOnTouchListener( new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 
-
-
-        /*listButtons.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                oldScrollY = listButtons.getScrollY();
-                oldScrollX = listButtons.getScrollX();// For HorizontalScrollView
-                // DO SOMETHING WITH THE SCROLL COORDINATES
-                Log.i("Sensor", "old Scroll X: " + oldScrollX);
-                Log.i("Sensor", "old Scroll Y: " + oldScrollY);
-            }
-        });   */
 
 
         //************* pie chart ****************
@@ -161,159 +132,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_MAX);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor arg0, int arg1) {
-        // TODO Auto-generated method stub
-    }
-
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-        Log.i("Sensor", "Accel: " + event.values[0]);
-
-        final float acceX = event.values[0];
-        final float acceZ = event.values[2];
-
-        final int scrollY = listButtons.getScrollY();
-        final int scrollX = listButtons.getScrollX();
-
-        final Button button_move_up = (Button) findViewById(R.id.button_move_up);
-        final Button button_move_down = (Button) findViewById(R.id.button_move_down);
-
-        listButtons.post(new Runnable() {
-            @Override
-            public void run() {
-                if(!buttonClicked){
-                    if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264
-                        if(scrollY<0){
-                            listButtons.scrollTo(scrollX,scrollY+velocity);
-                            //mLayout.setBackgroundColor(Color.GREEN);
-                            button_move_up.setVisibility(View.VISIBLE);
-                            button_move_down.setVisibility(View.INVISIBLE);
-
-                        }
-                        RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
-                        RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
-                        if(location.isChecked() && scrollY>2950){
-                            listButtons.scrollTo(scrollX,scrollY-velocity);
-                            //mLayout.setBackgroundColor(Color.BLUE);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.VISIBLE);
-                        }
-                        if(crime.isChecked() && scrollY>264){
-                            listButtons.scrollTo(scrollX,scrollY-velocity);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.VISIBLE);
-                        }
-                    }else{
-                        //if(acceX > 0 && acceZ < 10 ) {
-                        if(acceZ > 2 ) {
-                            //Scroll to Top
-                                    listButtons.scrollTo(scrollX,scrollY+velocity);
-                                    listButtons.computeScroll();
-                                    listButtons.invalidate();
-                                    Log.i("Sensor", "scroll Up");
-                                    Log.i("Sensor", "Scroll X: " + scrollX);
-                                    Log.i("Sensor", "Scroll Y: " + scrollY);
-                                    //mLayout.setBackgroundColor(Color.GREEN);
-                                    button_move_up.setVisibility(View.VISIBLE);
-                                    button_move_down.setVisibility(View.INVISIBLE);
-                        }
-                        //else if (acceX <= 10 && acceZ >= 0 ) {
-                        else if(acceZ >0 && acceZ <=1){
-                            listButtons.scrollBy(0, 0);
-                            listButtons.computeScroll();
-                            listButtons.invalidate();
-                            Log.i("Sensor", "scroll Stop");
-                            //mLayout.setBackgroundColor(Color.TRANSPARENT);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.INVISIBLE);
-                            buttonClicked = false;
-                        }
-                        else if (acceZ <= -1 ) {
-                            //Scroll to Bottom
-                                    listButtons.scrollTo(scrollX,scrollY-velocity);
-                                    listButtons.computeScroll();
-                                    listButtons.invalidate();
-                                    Log.i("Sensor", "scroll Bottom");
-                                    Log.i("Sensor", "Scroll X: " + scrollX);
-                                    Log.i("Sensor", "Scroll Y: " + scrollY);
-                                    //mLayout.setBackgroundColor(Color.BLUE);
-                                    button_move_up.setVisibility(View.INVISIBLE);
-                                    button_move_down.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }else{
-                            listButtons.scrollBy(0, 0);
-                            listButtons.computeScroll();
-                            listButtons.invalidate();
-                            Log.i("Sensor", "scroll Stop");
-                            //mLayout.setBackgroundColor(Color.TRANSPARENT);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.INVISIBLE);
-                            buttonClicked = false;
-                }
-            }
-        });
-
-
-
-
-        //print values on screen
-     /*   TextView tvX= (TextView)findViewById(R.id.x_axis);
-        TextView tvY= (TextView)findViewById(R.id.y_axis);
-        TextView tvZ= (TextView)findViewById(R.id.z_axis);
-        float xx = event.values[0];
-        float yy = event.values[1];
-        float zz = event.values[2];
-        if (!mInitialized) {
-            mLastX = xx;
-            mLastY = yy;
-            mLastZ = zz;
-            tvX.setText("0.0");
-            tvY.setText("0.0");
-            tvZ.setText("0.0");
-            mInitialized = true;
-        } else {
-            float deltaX = Math.abs(mLastX - xx);
-            float deltaY = Math.abs(mLastY - yy);
-            float deltaZ = Math.abs(mLastZ - zz);
-
-            if (deltaX < NOISE) deltaX = (float)0.0;
-            if (deltaY < NOISE) deltaY = (float)0.0;
-            if (deltaZ < NOISE) deltaZ = (float)0.0;
-            mLastX = xx;
-            mLastY = yy;
-            mLastZ = zz;
-            tvX.setText(Float.toString(xx));
-            tvY.setText(Float.toString(yy));
-            tvZ.setText(Float.toString(zz));
-        } */
-    }
-
-    public void requestAllSensors() {
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    public void killAllSensors() {
-        sensorManager.unregisterListener(this, accelerometer);
-        sensorManager.unregisterListener(this, accelerometer);
-    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -385,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 dynamic_button[i].setTextSize(10);
                 listButtons.addView(dynamic_button[i]);
-                dynamic_button[i].setOnClickListener(new OnClickListener() {
+                dynamic_button[i].setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         try {
                             AnotherPieChart(((Button)v).getText().toString());
@@ -414,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 dynamic_button[i].setTextSize(10);
                 dynamic_button[i].setId(i);
                 listButtons.addView(dynamic_button[i]);
-                dynamic_button[i].setOnClickListener(new OnClickListener() {
+                dynamic_button[i].setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         //show only the option selected
                         try{
