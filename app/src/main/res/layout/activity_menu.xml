@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="false"
+    tools:context=".Menu">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Bem-Vindo!"
+                android:textColor="#8A2BE2"
+                android:textSize="15pt" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonTestA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="150dp"
+                android:text="Teste A" />
+
+            <Button
+                android:id="@+id/buttonTestB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teste B" />
+        </LinearLayout>
+
+        <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
+             android:id="@+id/fab"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom|end"
+             android:layout_margin="@dimen/fab_margin"
+             app:srcCompat="@android:drawable/ic_dialog_email" />   -->
+
+    </LinearLayout>
+
+    <!--<include layout="@layout/" /> -->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

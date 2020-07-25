@@ -1,5 +1,6 @@
 package com.example.second;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -13,11 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
@@ -65,41 +64,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     //private ScrollListener mListener;
     private Sensor accelerometer;
-    private Sensor magnetSensor;
-    private float mCurrentPosition;
-    private boolean isCurrentPositionSet = false;
-    private int count = 0;
-
-    float[] mMagnetValues      = new float[3];
-    float[] mAccelValues       = new float[3];
-    float[] mOrientationValues = new float[3];
-    float[] mRotationMatrix    = new float[9];
-
-    private long lastUpdate;
-    private int minValue =  -820;//right
-    private int maxValue = 0;//left
-    private int minY = -30;//down
-    private int maxY = 0;//up
-
-    private ImageView mDrawable;
     NestedScrollView mLayout;
-    public static int x;
-    public static int y;
-    int acc_x = 0;
-    //same for every image
-    private double MARGIN_RATIO = 1; //0.03
-    // DIFFERENT in every image
-    private int IMAGE_WIDTH = 2128;
-    private int IMAGE_HEIGHT = 1500;
-    private int SCROLL_START = 500;
-    // user input (DIFFERENT scroll speed vary in every android device)
-    //0.5 , 1.0 , 1.5 , 2.0 , 2.5 (VERY SLOW, SLOW, MODERATE, FAST, VERY FAST)
-    private double TIMES_FASTER = 1.5;
-
-    //****************************
-    private int oldScrollY;
-    private int oldScrollX;
-
     private int velocity = 3;
 
 
@@ -110,10 +75,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button menu = (Button) findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNewActivity();
+            }
+        });
+
         mInitialized = false;
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        magnetSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
 
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
         listButtons.setNestedScrollingEnabled(true);
@@ -150,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //************* pie chart ****************
 
     }
+    public void openNewActivity(){
+        Intent intent = new Intent(this, Menu.class);
+        startActivity(intent);
+    }
+
     public void checkedOnRadioButton() {
         radioGroup =(RadioGroup) findViewById(R.id.radioGroup);
 
@@ -271,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         //print values on screen
-        TextView tvX= (TextView)findViewById(R.id.x_axis);
+     /*   TextView tvX= (TextView)findViewById(R.id.x_axis);
         TextView tvY= (TextView)findViewById(R.id.y_axis);
         TextView tvZ= (TextView)findViewById(R.id.z_axis);
         float xx = event.values[0];
@@ -299,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             tvX.setText(Float.toString(xx));
             tvY.setText(Float.toString(yy));
             tvZ.setText(Float.toString(zz));
-        }
+        } */
     }
 
     public void requestAllSensors() {
