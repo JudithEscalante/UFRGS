@@ -11,6 +11,9 @@ public class Menu extends AppCompatActivity {
 
     private Button testA;
     private Button testB;
+    private Button small;
+    private Button medium;
+    private Button large;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +32,34 @@ public class Menu extends AppCompatActivity {
                 openNewActivityTestB();
             }
         });
+
+        small = (Button) findViewById(R.id.small);
+        small.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMainActivitySmall();
+            }
+        });
+
+        medium = (Button) findViewById(R.id.medium);
+        medium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMainActivityMedium();
+            }
+        });
+
+        large = (Button) findViewById(R.id.large);
+        large.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMainActivityLarge();
+            }
+        });
+
+
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +77,24 @@ public class Menu extends AppCompatActivity {
 
     public void openNewActivityTestB(){
         Intent intent = new Intent(this, ActivitytestB.class);
+        startActivity(intent);
+    }
+
+    public void openMainActivitySmall(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("option", "small");
+        startActivity(intent);
+    }
+
+    public void openMainActivityMedium(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("option", "medium");
+        startActivity(intent);
+    }
+
+    public void openMainActivityLarge(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("option", "large");
         startActivity(intent);
     }
 }
