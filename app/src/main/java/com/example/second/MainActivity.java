@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String dataSize;
 
 
+
     /** Called when the activity is first created. */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -230,11 +231,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         final Button button_move_up = (Button) findViewById(R.id.button_move_up);
         final Button button_move_down = (Button) findViewById(R.id.button_move_down);
+        final Button button_tilt = (Button) findViewById(R.id.button_tilt);
+
+
 
         listButtons.post(new Runnable() {
             @Override
             public void run() {
-                if(!buttonClicked){
+                if(!buttonClicked && button_tilt.isPressed()){
                     if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264
                         if(scrollY<0){
                             listButtons.scrollTo(scrollX,scrollY+velocity);
