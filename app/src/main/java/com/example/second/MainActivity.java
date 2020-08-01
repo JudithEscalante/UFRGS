@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     NestedScrollView mLayout;
     private int velocity = 3;
     private String dataSize;
+    private int buttonListMax = 10;
 
 
 
@@ -173,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dataSize = getIntent().getStringExtra("option");
 
         //************* Chart ****************
+        TextView title = (TextView) findViewById(R.id.ChartTitle);
+        title.setText("Total crimes by location");
         pieChart=findViewById(R.id.pieChart);
         horizontalBarChart = findViewById(R.id.horizontalChart);
         //anyChartView = findViewById(R.id.any_chart_view);
@@ -269,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 if(!buttonClicked && button_tilt.isPressed()){
-                    if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264
+                    if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264   //
                         if(scrollY<0){
                             listButtons.scrollTo(scrollX,scrollY+velocity);
                             //mLayout.setBackgroundColor(Color.GREEN);
@@ -279,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         }
                         RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
                         RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
-                        if(location.isChecked() && scrollY>2950){
+                        if(location.isChecked() && scrollY>2950){  //&& scrollY>2950
                             listButtons.scrollTo(scrollX,scrollY-velocity);
                             //mLayout.setBackgroundColor(Color.BLUE);
                             button_move_up.setVisibility(View.INVISIBLE);
@@ -441,14 +444,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return new String(buffer, "UTF-8");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void createScrollBar(int option){
         //LinearLayout listButtons = (LinearLayout) findViewById(R.id.scrollBar);
 
         if (option == 1){
             listButtons.removeAllViews();
             buttonClicked = false;
-            Button[] dynamic_button = new Button[scrollBarLocation.size()];
-            for(int i = 0; i< scrollBarLocation.size() ; i++){
+            final Button[] dynamic_button = new Button[scrollBarLocation.size()];//scrollBarLocation.size()
+
+            for(int i = 0; i< scrollBarLocation.size(); i++){ //scrollBarLocation.size()
+                final int index;
+                
+                index = i;
                 dynamic_button[i] = new Button(this);
                 dynamic_button[i].setText(scrollBarLocation.get(i));
                 dynamic_button[i].setId(i);
@@ -463,6 +471,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             AnotherPieChart(((Button)v).getText().toString());
                             pieChart.notifyDataSetChanged();
                             pieChart.invalidate();
+
+                            //dynamic_button[index].setBackgroundColor(Color.GREEN);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -470,6 +481,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         buttonClicked = true;
                     }
                 });
+
+
+
 
             }
         }
@@ -539,8 +553,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             if (filter.equals(locationName)) {
                 Integer w = crimes.get(crimeType);
+
                 if (w == null) crimes.put(crimeType, 1);
                 else crimes.put(crimeType, w + 1);
+
+
 
             }
 
@@ -595,6 +612,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setDrawSliceText(false);
         pieChart.setData(pieData);
+
 
     }
 
