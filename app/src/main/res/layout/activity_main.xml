@@ -77,10 +77,9 @@
 					tools:ignore="MissingConstraints" />   -->
 
 
-
 				<TableLayout
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
+					android:layout_height="75dp"
 					android:stretchColumns="*"
 					tools:ignore="MissingConstraints">
 
@@ -89,16 +88,68 @@
 						android:layout_height="100dp">
 
 						<LinearLayout
-							android:layout_width="134dp"
-							android:layout_height="match_parent"
+							android:layout_width="226dp"
+							android:layout_height="75dp"
 							android:orientation="horizontal">
+
+							<LinearLayout
+								android:layout_width="80dp"
+								android:layout_height="wrap_content"
+								android:orientation="vertical"
+								android:layout_marginTop="@dimen/fab_margin"
+								>
+
+
+
+								<TextView
+									android:id="@+id/textView3"
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:layout_weight="1"
+									android:text="Velocidade: " />
+
+								<TextView
+									android:id="@+id/velocity"
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:layout_weight="1" />
+							</LinearLayout>
+
+							<Button
+								android:id="@+id/plus"
+								android:layout_width="33dp"
+								android:layout_height="34dp"
+								android:layout_gravity="top"
+								android:layout_marginLeft="@dimen/fab_margin"
+								android:layout_marginTop="@dimen/fab_margin"
+								android:background="@drawable/plus" />
+
+							<Button
+								android:id="@+id/minus"
+								android:layout_width="33dp"
+								android:layout_height="34dp"
+								android:layout_gravity="top"
+								android:layout_marginLeft="@dimen/fab_margin"
+								android:layout_marginTop="@dimen/fab_margin"
+								android:background="@drawable/minus" />
+
+							<Button
+								android:id="@+id/menu"
+								android:layout_width="33dp"
+								android:layout_height="34dp"
+								android:layout_gravity="top"
+								android:layout_marginLeft="@dimen/fab_margin"
+								android:layout_marginTop="@dimen/fab_margin"
+								android:background="@drawable/iconfinder__home_house_building_property_estate_4213424" />
 
 							<RadioGroup
 								android:id="@+id/radioGroup"
 								android:layout_width="96dp"
 								android:layout_height="match_parent"
 								android:layout_gravity="bottom|start"
-								android:layout_marginTop="@dimen/fab_margin">
+								android:layout_marginTop="@dimen/fab_margin"
+								android:visibility="invisible"
+								>
 
 								<RadioButton
 									android:id="@+id/radioButtonLocation"
@@ -116,18 +167,8 @@
 									android:text="Crime" />
 							</RadioGroup>
 
-							<Button
-								android:id="@+id/menu"
-								android:layout_gravity="bottom"
-								android:layout_width="76dp"
-								android:layout_height="72dp"
-								android:background="@drawable/iconfinder_right_1167974" />
 						</LinearLayout>
 
-						<Button
-							android:id="@+id/menu"
-							android:layout_gravity="end"
-							android:background="@drawable/menu_svg_small" />
 					</TableRow>
 
 					<!--<TableRow>
@@ -206,6 +247,7 @@
 									android:id="@+id/scrollView"
 									android:layout_width="130dp"
 									android:layout_height="match_parent"
+									android:layout_marginTop="@dimen/fab_margin"
 									android:clipToPadding="true">
 
 									<LinearLayout
@@ -246,7 +288,7 @@
 										android:layout_width="58dp"
 										android:layout_height="wrap_content"
 										android:layout_gravity="bottom"
-										android:background="@drawable/tilt"
+										android:background="?android:attr/fingerprintAuthDrawable"
 										android:text="" />
 
 								</LinearLayout>

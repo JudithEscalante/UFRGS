@@ -1,5 +1,8 @@
 package com.example.second;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
@@ -23,11 +26,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -105,13 +111,46 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Button menu = (Button) findViewById(R.id.menu);
-        menu.setOnClickListener(new View.OnClickListener() {
+        menu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 openNewActivity();
             }
         });
+
+        Button plus = (Button) findViewById(R.id.plus);
+        final TextView text = (TextView) findViewById(R.id.velocity);
+        String speed = String.valueOf(velocity);
+        text.setText(speed);
+        plus.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                velocity = velocity +2;
+                String speed = String.valueOf(velocity);
+                text.setText(speed);
+            }
+        });
+        Button minus = (Button) findViewById(R.id.minus);
+        minus.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                velocity = velocity -2;
+                String speed = String.valueOf(velocity);
+                text.setText(speed);
+            }
+        });
+
+      /*  next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                // Create and show the dialog.
+                BoxDialogFragment newFragment = new BoxDialogFragment ();
+                newFragment.show(ft, "dialog");
+            }
+        });*/
 
         mInitialized = false;
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -131,16 +170,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
 
-        /*listButtons.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                oldScrollY = listButtons.getScrollY();
-                oldScrollX = listButtons.getScrollX();// For HorizontalScrollView
-                // DO SOMETHING WITH THE SCROLL COORDINATES
-                Log.i("Sensor", "old Scroll X: " + oldScrollX);
-                Log.i("Sensor", "old Scroll Y: " + oldScrollY);
-            }
-        });   */
         dataSize = getIntent().getStringExtra("option");
 
         //************* Chart ****************
@@ -168,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent intent = new Intent(this, Menu.class);
         startActivity(intent);
     }
+
 
     public void checkedOnRadioButton() {
         radioGroup =(RadioGroup) findViewById(R.id.radioGroup);
@@ -270,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Log.i("Sensor", "scroll Up");
                                     Log.i("Sensor", "Scroll X: " + scrollX);
                                     Log.i("Sensor", "Scroll Y: " + scrollY);
+                                    Log.i("Sensor", "velocity: " + velocity);
                                     //mLayout.setBackgroundColor(Color.GREEN);
                                     button_move_up.setVisibility(View.VISIBLE);
                                     button_move_down.setVisibility(View.INVISIBLE);
