@@ -117,10 +117,10 @@
 							</RadioGroup>
 
 							<Button
-								android:id="@+id/menu"
-								android:layout_gravity="bottom"
+								android:id="@+id/next"
 								android:layout_width="76dp"
 								android:layout_height="72dp"
+								android:layout_gravity="bottom"
 								android:background="@drawable/iconfinder_right_1167974" />
 						</LinearLayout>
 
@@ -246,7 +246,7 @@
 										android:layout_width="58dp"
 										android:layout_height="wrap_content"
 										android:layout_gravity="bottom"
-										android:background="@drawable/tilt"
+										android:background="?android:attr/fingerprintAuthDrawable"
 										android:text="" />
 
 								</LinearLayout>
