@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //private ScrollListener mListener;
     private Sensor accelerometer;
     NestedScrollView mLayout;
-    private int velocity = 3;
+    private int velocity = 5;
     private String dataSize;
-    private int buttonListMax = 10;
+    private int maxScrollY = 2950;
 
 
 
@@ -121,25 +121,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        Button plus = (Button) findViewById(R.id.plus);
+        final Button plus = (Button) findViewById(R.id.plus);
         final TextView text = (TextView) findViewById(R.id.velocity);
-        String speed = String.valueOf(velocity);
-        text.setText(speed);
+        text.setText(showSpeed(velocity));
         plus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                velocity = velocity +2;
-                String speed = String.valueOf(velocity);
-                text.setText(speed);
+                if(velocity>=5 && velocity<9){
+                    velocity = velocity + 2;
+                    text.setText(showSpeed(velocity));
+                }
+
             }
         });
-        Button minus = (Button) findViewById(R.id.minus);
+        final Button minus = (Button) findViewById(R.id.minus);
         minus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                velocity = velocity -2;
-                String speed = String.valueOf(velocity);
-                text.setText(speed);
+                if(velocity>5 && velocity<=9){
+                    velocity = velocity - 2;
+                    text.setText(showSpeed(velocity));
+                }
+
             }
         });
 
@@ -172,6 +175,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         dataSize = getIntent().getStringExtra("option");
+        if(dataSize.equals("small")) maxScrollY = 3728;
+        if(dataSize.equals("medium")) maxScrollY = 7950;
+        if(dataSize.equals("large")) maxScrollY = 16650;
 
         //************* Chart ****************
         TextView title = (TextView) findViewById(R.id.ChartTitle);
@@ -201,6 +207,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
 
+    public String showSpeed(int velocity){
+        String st = "";
+        if(velocity==5) st = "1";
+        if(velocity==7) st = "2";
+        if(velocity==9) st = "3";
+        return st;
+    }
 
     public void checkedOnRadioButton() {
         radioGroup =(RadioGroup) findViewById(R.id.radioGroup);
@@ -267,12 +280,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final Button button_tilt = (Button) findViewById(R.id.button_tilt);
 
 
-
         listButtons.post(new Runnable() {
             @Override
             public void run() {
                 if(!buttonClicked && button_tilt.isPressed()){
-                    if(scrollY<0 || scrollY>2950){//scroll max location 2950    //scroll max crime 264   //
+                    if(scrollY<0 || scrollY > maxScrollY){//scroll max location 2950    //scroll max crime 264   //
                         if(scrollY<0){
                             listButtons.scrollTo(scrollX,scrollY+velocity);
                             //mLayout.setBackgroundColor(Color.GREEN);
@@ -282,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         }
                         RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
                         RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
-                        if(location.isChecked() && scrollY>2950){  //&& scrollY>2950
+                        if(location.isChecked() && scrollY > maxScrollY){  //&& scrollY>2950
                             listButtons.scrollTo(scrollX,scrollY-velocity);
                             //mLayout.setBackgroundColor(Color.BLUE);
                             button_move_up.setVisibility(View.INVISIBLE);
@@ -304,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Log.i("Sensor", "Scroll X: " + scrollX);
                                     Log.i("Sensor", "Scroll Y: " + scrollY);
                                     Log.i("Sensor", "velocity: " + velocity);
+                                    Log.i("Sensor", "dataSize: " + dataSize);
                                     //mLayout.setBackgroundColor(Color.GREEN);
                                     button_move_up.setVisibility(View.VISIBLE);
                                     button_move_down.setVisibility(View.INVISIBLE);
