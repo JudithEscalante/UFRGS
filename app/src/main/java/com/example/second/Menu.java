@@ -18,7 +18,7 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        testA = (Button) findViewById(R.id.buttonTestA);
+        /*testA = (Button) findViewById(R.id.buttonTestA);
         testA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +31,7 @@ public class Menu extends AppCompatActivity {
             public void onClick(View v) {
                 openNewActivityTestB();
             }
-        });
+        });*/
 
         small = (Button) findViewById(R.id.small);
         small.setOnClickListener(new View.OnClickListener() {

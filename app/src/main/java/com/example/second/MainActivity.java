@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             listButtons.scrollBy(0, 0);
                             listButtons.computeScroll();
                             listButtons.invalidate();
-                            Log.i("Sensor", "scroll Stop");
+                            //Log.i("Sensor", "scroll Stop");
                             //mLayout.setBackgroundColor(Color.TRANSPARENT);
                             button_move_up.setVisibility(View.INVISIBLE);
                             button_move_down.setVisibility(View.INVISIBLE);
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             listButtons.scrollBy(0, 0);
                             listButtons.computeScroll();
                             listButtons.invalidate();
-                            Log.i("Sensor", "scroll Stop");
+                            //Log.i("Sensor", "scroll Stop");
                             //mLayout.setBackgroundColor(Color.TRANSPARENT);
                             button_move_up.setVisibility(View.INVISIBLE);
                             button_move_down.setVisibility(View.INVISIBLE);
@@ -395,10 +395,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void loadData() throws JSONException {
         JSONObject json = loadJsonObjectFromAsset("file.json");
         try {
+            int count =0;
             JSONArray principalArray = json.getJSONArray(dataSize);
+            count = ((dataSize.equals("small")) ? 30: ((dataSize.equals("medium")) ? 60: 120));
+
             for(int i = 0; i< principalArray.length(); i++){
                 String locationName = principalArray.getJSONObject(i).getString("Location");
-                if(!scrollBarLocation.contains(locationName)){
+                if(!scrollBarLocation.contains(locationName) && scrollBarLocation.size()<count ){
                     scrollBarLocation.add(locationName);
                 }
 
@@ -414,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
             }
+           // Log.d(TAG, "loadData:" + scrollBarLocation.size());
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -36,53 +36,53 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/buttonTestA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                
+            <!--  <Button
+                  android:id="@+id/buttonTestA"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
 
-                android:text="Teste A"
-                android:background="@color/colorAccent"
-                android:visibility="invisible"/>
 
-            <Button
-                android:id="@+id/buttonTestB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/holo_blue_bright"
-                android:text="Teste B"
-                android:visibility="invisible"/>
+                  android:text="Teste A"
+                  android:background="@color/colorAccent"
+                  android:visibility="invisible"/>
 
-            <Button
-                android:id="@+id/small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Small"
-                />
+              <Button
+                  android:id="@+id/buttonTestB"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="@android:color/holo_blue_bright"
+                  android:text="Teste B"
+                  android:visibility="invisible"/>-->
 
-            <Button
-                android:id="@+id/medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Median"
-                />
+              <Button
+                  android:id="@+id/small"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Small"
+                  />
 
-            <Button
-                android:id="@+id/large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Large"
-                />
-        </LinearLayout>
+              <Button
+                  android:id="@+id/medium"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Median"
+                  />
 
-        <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
-             android:id="@+id/fab"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="bottom|end"
-             android:layout_margin="@dimen/fab_margin"
-             app:srcCompat="@android:drawable/ic_dialog_email" />   -->
+              <Button
+                  android:id="@+id/large"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Large"
+                  />
+          </LinearLayout>
+
+          <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
+               android:id="@+id/fab"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="bottom|end"
+               android:layout_margin="@dimen/fab_margin"
+               app:srcCompat="@android:drawable/ic_dialog_email" />   -->
 
     </LinearLayout>
 
