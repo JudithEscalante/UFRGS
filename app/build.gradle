@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        applicationId "com.example.second"
+        applicationId "com.app.labvistilt"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

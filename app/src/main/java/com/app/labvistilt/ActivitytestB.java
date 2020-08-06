@@ -1,4 +1,4 @@
-package com.example.second;
+package com.app.labvistilt;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

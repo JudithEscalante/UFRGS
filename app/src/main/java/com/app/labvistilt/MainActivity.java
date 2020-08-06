@@ -1,23 +1,15 @@
-package com.example.second;
+package com.app.labvistilt;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,30 +18,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.anychart.data.Set;
-import com.anychart.enums.Align;
-import com.anychart.enums.LegendLayout;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -57,9 +40,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,6 +124,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     text.setText(showSpeed(velocity));
                 }
 
+            }
+        });
+
+        final Switch buttonFinger = (Switch) findViewById(R.id.switchButton);
+        final Button button_tilt = (Button) findViewById(R.id.button_tilt);
+        buttonFinger.setChecked(true);
+        buttonFinger.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!buttonFinger.isChecked()){
+                    button_tilt.setVisibility(View.INVISIBLE);
+                }else{
+                    button_tilt.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -267,130 +262,106 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-       // Log.i("Sensor", "Accel: " + event.values[0]);
-
         final float acceX = event.values[0];
         final float acceZ = event.values[2];
-
-        final int scrollY = listButtons.getScrollY();
-        final int scrollX = listButtons.getScrollX();
 
         final Button button_move_up = (Button) findViewById(R.id.button_move_up);
         final Button button_move_down = (Button) findViewById(R.id.button_move_down);
         final Button button_tilt = (Button) findViewById(R.id.button_tilt);
+        final Switch buttonFinger = (Switch) findViewById(R.id.switchButton);
 
 
         listButtons.post(new Runnable() {
             @Override
             public void run() {
-                if(!buttonClicked && button_tilt.isPressed()){
-                    if(scrollY<0 || scrollY > maxScrollY){//scroll max location 2950    //scroll max crime 264   //
-                        if(scrollY<0){
-                            listButtons.scrollTo(scrollX,scrollY+velocity);
-                            //mLayout.setBackgroundColor(Color.GREEN);
-                            button_move_up.setVisibility(View.VISIBLE);
-                            button_move_down.setVisibility(View.INVISIBLE);
-
-                        }
-                        RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
-                        RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
-                        if(location.isChecked() && scrollY > maxScrollY){  //&& scrollY>2950
-                            listButtons.scrollTo(scrollX,scrollY-velocity);
-                            //mLayout.setBackgroundColor(Color.BLUE);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.VISIBLE);
-                        }
-                        if(crime.isChecked() && scrollY>264){
-                            listButtons.scrollTo(scrollX,scrollY-velocity);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.VISIBLE);
-                        }
-                    }else{
-                        //if(acceX > 0 && acceZ < 10 ) {
-                        if(acceZ > 2 ) {
-                            //Scroll to Top
-                                    listButtons.scrollTo(scrollX,scrollY+velocity);
-                                    listButtons.computeScroll();
-                                    listButtons.invalidate();
-                                    Log.i("Sensor", "scroll Up");
-                                    Log.i("Sensor", "Scroll X: " + scrollX);
-                                    Log.i("Sensor", "Scroll Y: " + scrollY);
-                                    Log.i("Sensor", "velocity: " + velocity);
-                                    Log.i("Sensor", "dataSize: " + dataSize);
-                                    //mLayout.setBackgroundColor(Color.GREEN);
-                                    button_move_up.setVisibility(View.VISIBLE);
-                                    button_move_down.setVisibility(View.INVISIBLE);
-                        }
-                        //else if (acceX <= 10 && acceZ >= 0 ) {
-                        else if(acceZ >0 && acceZ <=1){
-                            listButtons.scrollBy(0, 0);
-                            listButtons.computeScroll();
-                            listButtons.invalidate();
-                            //Log.i("Sensor", "scroll Stop");
-                            //mLayout.setBackgroundColor(Color.TRANSPARENT);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.INVISIBLE);
-                            buttonClicked = false;
-                        }
-                        else if (acceZ <= -1 ) {
-                            //Scroll to Bottom
-                                    listButtons.scrollTo(scrollX,scrollY-velocity);
-                                    listButtons.computeScroll();
-                                    listButtons.invalidate();
-                                    Log.i("Sensor", "scroll Bottom");
-                                    Log.i("Sensor", "Scroll X: " + scrollX);
-                                    Log.i("Sensor", "Scroll Y: " + scrollY);
-                                    //mLayout.setBackgroundColor(Color.BLUE);
-                                    button_move_up.setVisibility(View.INVISIBLE);
-                                    button_move_down.setVisibility(View.VISIBLE);
-                        }
+                if (buttonFinger.isChecked()) {
+                    if(!buttonClicked && button_tilt.isPressed()) {
+                        useTilt(acceX, acceZ);
+                    } else {
+                        listButtons.scrollBy(0, 0);
+                        listButtons.computeScroll();
+                        listButtons.invalidate();
+                        //Log.i("Sensor", "scroll Stop");
+                        //mLayout.setBackgroundColor(Color.TRANSPARENT);
+                        button_move_up.setVisibility(View.INVISIBLE);
+                        button_move_down.setVisibility(View.INVISIBLE);
+                        buttonClicked = false;
                     }
-                }else{
-                            listButtons.scrollBy(0, 0);
-                            listButtons.computeScroll();
-                            listButtons.invalidate();
-                            //Log.i("Sensor", "scroll Stop");
-                            //mLayout.setBackgroundColor(Color.TRANSPARENT);
-                            button_move_up.setVisibility(View.INVISIBLE);
-                            button_move_down.setVisibility(View.INVISIBLE);
-                            buttonClicked = false;
+                } else {
+                    if(!buttonClicked) {
+                        useTilt(acceX, acceZ);
+                    }
                 }
+
             }
         });
+    }
+    public void useTilt(float acceX, float acceZ){
+        final int scrollY = listButtons.getScrollY();
+        final int scrollX = listButtons.getScrollX();
 
+        final Button button_move_up = (Button) findViewById(R.id.button_move_up);
+        final Button button_move_down = (Button) findViewById(R.id.button_move_down);
+                        if (scrollY < 0 || scrollY > maxScrollY) {//scroll max location 2950    //scroll max crime 264   //
+                            if (scrollY < 0) {
+                                listButtons.scrollTo(scrollX, scrollY + velocity);
+                                //mLayout.setBackgroundColor(Color.GREEN);
+                                button_move_up.setVisibility(View.VISIBLE);
+                                button_move_down.setVisibility(View.INVISIBLE);
 
-
-
-        //print values on screen
-     /*   TextView tvX= (TextView)findViewById(R.id.x_axis);
-        TextView tvY= (TextView)findViewById(R.id.y_axis);
-        TextView tvZ= (TextView)findViewById(R.id.z_axis);
-        float xx = event.values[0];
-        float yy = event.values[1];
-        float zz = event.values[2];
-        if (!mInitialized) {
-            mLastX = xx;
-            mLastY = yy;
-            mLastZ = zz;
-            tvX.setText("0.0");
-            tvY.setText("0.0");
-            tvZ.setText("0.0");
-            mInitialized = true;
-        } else {
-            float deltaX = Math.abs(mLastX - xx);
-            float deltaY = Math.abs(mLastY - yy);
-            float deltaZ = Math.abs(mLastZ - zz);
-
-            if (deltaX < NOISE) deltaX = (float)0.0;
-            if (deltaY < NOISE) deltaY = (float)0.0;
-            if (deltaZ < NOISE) deltaZ = (float)0.0;
-            mLastX = xx;
-            mLastY = yy;
-            mLastZ = zz;
-            tvX.setText(Float.toString(xx));
-            tvY.setText(Float.toString(yy));
-            tvZ.setText(Float.toString(zz));
-        } */
+                            }
+                            RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
+                            RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
+                            if (location.isChecked() && scrollY > maxScrollY) {  //&& scrollY>2950
+                                listButtons.scrollTo(scrollX, scrollY - velocity);
+                                //mLayout.setBackgroundColor(Color.BLUE);
+                                button_move_up.setVisibility(View.INVISIBLE);
+                                button_move_down.setVisibility(View.VISIBLE);
+                            }
+                            if (crime.isChecked() && scrollY > 264) {
+                                listButtons.scrollTo(scrollX, scrollY - velocity);
+                                button_move_up.setVisibility(View.INVISIBLE);
+                                button_move_down.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            //if(acceX > 0 && acceZ < 10 ) {
+                            if (acceZ > 2) {
+                                //Scroll to Top
+                                listButtons.scrollTo(scrollX, scrollY + velocity);
+                                listButtons.computeScroll();
+                                listButtons.invalidate();
+                                Log.i("Sensor", "scroll Up");
+                                Log.i("Sensor", "Scroll X: " + scrollX);
+                                Log.i("Sensor", "Scroll Y: " + scrollY);
+                                Log.i("Sensor", "velocity: " + velocity);
+                                Log.i("Sensor", "dataSize: " + dataSize);
+                                //mLayout.setBackgroundColor(Color.GREEN);
+                                button_move_up.setVisibility(View.VISIBLE);
+                                button_move_down.setVisibility(View.INVISIBLE);
+                            }
+                            //else if (acceX <= 10 && acceZ >= 0 ) {
+                            else if (acceZ > 0 && acceZ <= 1) {
+                                listButtons.scrollBy(0, 0);
+                                listButtons.computeScroll();
+                                listButtons.invalidate();
+                                //Log.i("Sensor", "scroll Stop");
+                                //mLayout.setBackgroundColor(Color.TRANSPARENT);
+                                button_move_up.setVisibility(View.INVISIBLE);
+                                button_move_down.setVisibility(View.INVISIBLE);
+                                buttonClicked = false;
+                            } else if (acceZ <= -1) {
+                                //Scroll to Bottom
+                                listButtons.scrollTo(scrollX, scrollY - velocity);
+                                listButtons.computeScroll();
+                                listButtons.invalidate();
+                                Log.i("Sensor", "scroll Bottom");
+                                Log.i("Sensor", "Scroll X: " + scrollX);
+                                Log.i("Sensor", "Scroll Y: " + scrollY);
+                                //mLayout.setBackgroundColor(Color.BLUE);
+                                button_move_up.setVisibility(View.INVISIBLE);
+                                button_move_down.setVisibility(View.VISIBLE);
+                            }
+                    }
     }
 
     public void requestAllSensors() {
@@ -788,3 +759,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }*/
 
 }
+

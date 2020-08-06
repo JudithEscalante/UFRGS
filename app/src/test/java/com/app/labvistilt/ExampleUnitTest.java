@@ -1,4 +1,4 @@
-package com.example.second;
+package com.app.labvistilt;
 
 import org.junit.Test;
 
