@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //private ScrollListener mListener;
     private Sensor accelerometer;
     NestedScrollView mLayout;
-    private int velocity = 5;
+    private int velocity = 1;
     private String dataSize;
     private int maxScrollY = 2950;
 
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         plus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(velocity>=5 && velocity<9){
+                if(velocity>=1 && velocity<9){
                     velocity = velocity + 2;
                     text.setText(showSpeed(velocity));
                 }
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         minus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(velocity>5 && velocity<=9){
+                if(velocity>1 && velocity<=9){
                     velocity = velocity - 2;
                     text.setText(showSpeed(velocity));
                 }
@@ -204,9 +204,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public String showSpeed(int velocity){
         String st = "";
-        if(velocity==5) st = "1";
-        if(velocity==7) st = "2";
-        if(velocity==9) st = "3";
+        if(velocity==1) st = "1";
+        if(velocity==3) st = "2";
+        if(velocity==5) st = "3";
+        if(velocity==7) st = "4";
+        if(velocity==9) st = "5";
         return st;
     }
 
