@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     HashMap<String, Integer> PeriodCrimes = new HashMap<String, Integer>(50, 10);
     LinearLayout listButtons;
     private boolean buttonClicked = false;
+    private boolean play = false;
     Pie pie;
 
     //***********************
@@ -84,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int velocity = 1;
     private String dataSize;
     private int maxScrollY = 2950;
+
+    Button button_play;
+    Button button_pause;
+    Switch buttonFinger;
 
 
 
@@ -127,16 +132,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        final Switch buttonFinger = (Switch) findViewById(R.id.switchButton);
+        buttonFinger = (Switch) findViewById(R.id.switchButton);
         final Button button_tilt = (Button) findViewById(R.id.button_tilt);
+        button_play = (Button) findViewById(R.id.button_play);
+        button_pause =(Button) findViewById(R.id.button_pause);
         buttonFinger.setChecked(true);
         buttonFinger.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!buttonFinger.isChecked()){
                     button_tilt.setVisibility(View.INVISIBLE);
+                    button_play.setVisibility(View.VISIBLE);
+
                 }else{
                     button_tilt.setVisibility(View.VISIBLE);
+                    button_pause.setVisibility(View.INVISIBLE);
+                    button_play.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -277,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 if (buttonFinger.isChecked()) {
+
                     if(!buttonClicked && button_tilt.isPressed()) {
                         useTilt(acceX, acceZ);
                     } else {
@@ -290,8 +302,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         buttonClicked = false;
                     }
                 } else {
-                    if(!buttonClicked) {
+                        button_play.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                button_pause.setVisibility(View.VISIBLE);
+                                button_play.setVisibility(View.INVISIBLE);
+                                play=true;
+                                buttonClicked = false;
+                            }
+                        });
+                       button_pause.setOnClickListener(new OnClickListener() {
+                           @Override
+                           public void onClick(View view) {
+                               button_play.setVisibility(View.VISIBLE);
+                               button_pause.setVisibility(View.INVISIBLE);
+                               play=false;
+                           }
+                       });
+                    if(!buttonClicked && play) {
                         useTilt(acceX, acceZ);
+                    }
+                    else{
+                        listButtons.scrollBy(0, 0);
+                        listButtons.computeScroll();
+                        listButtons.invalidate();
+                        //Log.i("Sensor", "scroll Stop");
+                        //mLayout.setBackgroundColor(Color.TRANSPARENT);
+                        button_move_up.setVisibility(View.INVISIBLE);
+                        button_move_down.setVisibility(View.INVISIBLE);
+                        buttonClicked = false;
                     }
                 }
 
@@ -403,6 +442,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
             }
+
+                Log.d(TAG, "loadData:     " + scrollBarLocation);
+
            // Log.d(TAG, "loadData:" + scrollBarLocation.size());
 
         } catch (JSONException e) {
@@ -467,7 +509,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        if(!buttonFinger.isChecked()){
+                            button_play.setVisibility(View.VISIBLE);
+                            button_pause.setVisibility(View.INVISIBLE);
+                            play=false;
+                        }
                         buttonClicked = true;
                     }
                 });
