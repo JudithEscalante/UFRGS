@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Button button_play;
     Button button_pause;
     Switch buttonFinger;
+    TextView titleChart;
 
 
 
@@ -186,8 +187,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(dataSize.equals("large")) maxScrollY = 16650;
 
         //************* Chart ****************
-        TextView title = (TextView) findViewById(R.id.ChartTitle);
-        title.setText("Total crimes by location");
+        titleChart = (TextView) findViewById(R.id.ChartTitle);
+        titleChart.setText("Total crimes by location");
+
         pieChart=findViewById(R.id.pieChart);
         horizontalBarChart = findViewById(R.id.horizontalChart);
         //anyChartView = findViewById(R.id.any_chart_view);
@@ -502,6 +504,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             //otherPieChartNewVersion(((Button)v).getText().toString());
                             AnotherPieChart(((Button)v).getText().toString());
                             pieChart.notifyDataSetChanged();
+                            titleChart.setText("Total crimes by location" + " : " + ((Button)v).getText().toString());
                             pieChart.invalidate();
 
                             //dynamic_button[index].setBackgroundColor(Color.GREEN);
