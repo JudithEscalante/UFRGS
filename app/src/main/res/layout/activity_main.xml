@@ -88,6 +88,15 @@
                         tools:ignore="MissingConstraints" />   -->
 
 
+                <TextView
+                    android:id="@+id/testType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center"
+                    />
+
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
@@ -103,13 +112,63 @@
                             android:layout_height="75dp"
                             android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
+                            <RadioGroup
+                                android:id="@+id/radioGroup"
+                                android:layout_width="96dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="bottom|start"
                                 android:layout_marginTop="@dimen/fab_margin"
                                 >
 
+                                <RadioButton
+                                    android:id="@+id/radioButtonLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+
+                                    android:text="Location" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButtonCrime"
+                                    android:layout_width="84dp"
+                                    android:layout_height="wrap_content"
+
+                                    android:text="Crime" />
+                            </RadioGroup>
+
+                            <Button
+                                android:id="@+id/back"
+                                android:layout_width="33dp"
+                                android:layout_height="34dp"
+                                android:layout_gravity="top"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:background="@drawable/arrow_left" />
+
+                            <Button
+                                android:id="@+id/next"
+                                android:layout_width="33dp"
+                                android:layout_height="34dp"
+                                android:layout_gravity="top"
+                                android:layout_marginLeft="@dimen/fab_margin"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:background="@drawable/arrow_righ" />
+
+                            <Button
+                                android:id="@+id/menu"
+                                android:layout_width="33dp"
+                                android:layout_height="34dp"
+                                android:layout_gravity="top"
+                                android:layout_marginLeft="@dimen/fab_margin"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:background="@drawable/iconfinder__home_house_building_property_estate_4213424" />
+
+                            <LinearLayout
+                                android:layout_width="95dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:orientation="vertical"
+                                android:visibility="invisible">
 
 
                                 <TextView
@@ -132,58 +191,6 @@
                                     android:layout_weight="1"
                                     android:text="Button" />
                             </LinearLayout>
-
-                            <Button
-                                android:id="@+id/plus"
-                                android:layout_width="33dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="top"
-                                android:layout_marginLeft="12dp"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/plus" />
-
-                            <Button
-                                android:id="@+id/minus"
-                                android:layout_width="33dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="top"
-                                android:layout_marginLeft="@dimen/fab_margin"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/minus" />
-
-                            <Button
-                                android:id="@+id/menu"
-                                android:layout_width="33dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="top"
-                                android:layout_marginLeft="@dimen/fab_margin"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/iconfinder__home_house_building_property_estate_4213424" />
-
-                            <RadioGroup
-                                android:id="@+id/radioGroup"
-                                android:layout_width="96dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="bottom|start"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:visibility="invisible"
-                                >
-
-                                <RadioButton
-                                    android:id="@+id/radioButtonLocation"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:checked="true"
-
-                                    android:text="Location" />
-
-                                <RadioButton
-                                    android:id="@+id/radioButtonCrime"
-                                    android:layout_width="84dp"
-                                    android:layout_height="wrap_content"
-
-                                    android:text="Crime" />
-                            </RadioGroup>
 
                         </LinearLayout>
 

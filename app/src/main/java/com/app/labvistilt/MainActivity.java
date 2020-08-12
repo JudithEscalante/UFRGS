@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Button button_pause;
     Switch buttonFinger;
     TextView titleChart;
+    TextView testType;
+    private int testId = 1;
 
 
 
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        final Button plus = (Button) findViewById(R.id.plus);
-        final TextView text = (TextView) findViewById(R.id.velocity);
+        //final Button plus = (Button) findViewById(R.id.plus);
+        /**  final TextView text = (TextView) findViewById(R.id.velocity);
         text.setText(showSpeed(velocity));
         plus.setOnClickListener(new OnClickListener() {
             @Override
@@ -130,6 +132,45 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     text.setText(showSpeed(velocity));
                 }
 
+            }
+        }); */
+
+        dataSize = "small";
+        final Button next = (Button) findViewById(R.id.next);
+        final TextView text = (TextView) findViewById(R.id.testType);
+        text.setText("Test A : "+dataSize);
+         next.setOnClickListener(new OnClickListener() {
+         @Override
+            public void onClick(View view) {
+                if(testId>=1 && testId <3){
+                    testId = testId +1;
+                    dataSize = showTest(testId);
+                    scrollBarLocation.clear();
+                    listButtons.scrollTo(0 ,0);
+                    text.setText("Test A : "+dataSize);
+                    loadScrollBar();
+                }else if(testId == 3){
+                    testId = testId +1;
+                    text.setText("Test B : ");
+
+                    openNewActivityTestB();
+                    
+                }
+
+            }
+         });
+         final Button back = (Button) findViewById(R.id.back);
+         back.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(testId>1 && testId <=4) {
+                    testId = testId - 1;
+                    dataSize = showTest(testId);
+                    scrollBarLocation.clear();
+                    listButtons.scrollTo(0, 0);
+                    text.setText("Test A : " + dataSize);
+                    loadScrollBar();
+                }
             }
         });
 
@@ -181,10 +222,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
 
-        dataSize = getIntent().getStringExtra("option");
-        if(dataSize.equals("small")) maxScrollY = 3728;
-        if(dataSize.equals("medium")) maxScrollY = 7950;
-        if(dataSize.equals("large")) maxScrollY = 16650;
+        //dataSize = getIntent().getStringExtra("option");
+
+
+
 
         //************* Chart ****************
         titleChart = (TextView) findViewById(R.id.ChartTitle);
@@ -196,15 +237,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //pie = AnyChart.pie();
         //anyChartView.setVisibility(View.INVISIBLE);
 
-        try {
-            loadData();
-            createScrollBar(optionLocation);
-            createPieChart();
-            //PieChartNewVersion();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        loadScrollBar();
 
         checkedOnRadioButton();
         //************* pie chart ****************
@@ -215,6 +248,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
 
+    public void openNewActivityTestB(){
+        Intent intent = new Intent(this, ActivitytestB.class);
+        startActivity(intent);
+    }
+
+    public void loadScrollBar(){
+        try {
+            loadData();
+            createScrollBar(optionLocation);
+            createPieChart();
+            //PieChartNewVersion();
+            if(dataSize.equals("small")) maxScrollY = 3728;
+            if(dataSize.equals("medium")) maxScrollY = 7950;
+            if(dataSize.equals("large")) maxScrollY = 16650;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String showSpeed(int velocity){
         String st = "";
         if(velocity==1) st = "1";
@@ -222,6 +275,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(velocity==5) st = "3";
         if(velocity==7) st = "4";
         if(velocity==9) st = "5";
+        return st;
+    }
+
+    public String showTest(int test){
+        String st = "";
+        if(test==1) st = "small";
+        if(test==2) st = "medium";
+        if(test==3) st = "large";
+        if(test==4) st = "4";
+        if(test==5) st = "5";
         return st;
     }
 
@@ -446,6 +509,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
 
                 Log.d(TAG, "loadData:     " + scrollBarLocation);
+
 
            // Log.d(TAG, "loadData:" + scrollBarLocation.size());
 
