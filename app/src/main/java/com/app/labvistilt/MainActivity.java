@@ -48,10 +48,14 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
-
-
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -488,6 +492,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             int count =0;
             JSONArray principalArray = json.getJSONArray(dataSize);
             count = ((dataSize.equals("small")) ? 30: ((dataSize.equals("medium")) ? 60: 120));
+            scrollBarLocation.add("All location");
+            totalCrimes.put("All crimes",0);
 
             for(int i = 0; i< principalArray.length(); i++){
                 String locationName = principalArray.getJSONObject(i).getString("Location");
@@ -499,6 +505,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Integer w = totalCrimes.get(crime);
                 if(w == null) totalCrimes.put(crime, 1);
                 else totalCrimes.put(crime, w + 1);
+                totalCrimes = sortHashMapByValues(totalCrimes);
 
                 String period = principalArray.getJSONObject(i).getString("Period");
                 Integer z = PeriodCrimes.get(period);
@@ -508,15 +515,42 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
 
-                Log.d(TAG, "loadData:     " + scrollBarLocation);
+            //Log.i(TAG, "loadDatasort: " + totalCrimes);
 
-
-           // Log.d(TAG, "loadData:" + scrollBarLocation.size());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public LinkedHashMap<String, Integer> sortHashMapByValues(HashMap<String, Integer> passedMap) {
+        List<String> mapKeys = new ArrayList<>(passedMap.keySet());
+        List<Integer> mapValues = new ArrayList<>(passedMap.values());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        LinkedHashMap<String, Integer>sortedMap =
+                new LinkedHashMap<>();
+
+        Iterator<Integer> valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Integer val = valueIt.next();
+            Iterator<String> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                String key = keyIt.next();
+                Integer comp1 = passedMap.get(key);
+                Integer comp2 = val;
+
+                if (comp1.equals(comp2)) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        return sortedMap;
     }
 
 
@@ -656,24 +690,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             if (filter.equals(locationName)) {
                 Integer w = crimes.get(crimeType);
-
                 if (w == null) crimes.put(crimeType, 1);
                 else crimes.put(crimeType, w + 1);
-
-
-
             }
-
         }
 
-        ArrayList<PieEntry> pieEntries= new ArrayList<>();
-
-        for(String i : crimes.keySet()){
-            Integer value = crimes.get(i);
-            pieEntries.add(new PieEntry( (float) value, i));
+        if(!filter.equals("All location")){
+            ArrayList<PieEntry> pieEntries= new ArrayList<>();
+            for(String i : crimes.keySet()){
+                Integer value = crimes.get(i);
+                pieEntries.add(new PieEntry( (float) value, i));
+            }
+            piechart(pieChart, pieEntries);
+        }
+        else{
+            createPieChart();
         }
 
-        piechart(pieChart, pieEntries);
+
+
 
     }
 
@@ -749,20 +784,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 else periods.put(period, w + 1);
             }
 
+
         }
 
-        float spaceForBar = 0.5f;
-        float barWidth = 0.9f;
-        ArrayList<String> xAxisLables = new ArrayList();
-        ArrayList<BarEntry> values = new ArrayList<>();
-        float z =0.1f;
-        for(String i : periods.keySet()){
-            Integer value = periods.get(i);
-            values.add(new BarEntry((float) (((barWidth)/2 + spaceForBar)*z), (float) value));
-            xAxisLables.add(value + " "+ i);
-            z++;
+        if(!filter.equals("All crimes")){
+           float spaceForBar = 0.5f;
+           float barWidth = 0.9f;
+           ArrayList<String> xAxisLables = new ArrayList();
+           ArrayList<BarEntry> values = new ArrayList<>();
+           float z =0.1f;
+            for(String i : periods.keySet()){
+                 Integer value = periods.get(i);
+                 values.add(new BarEntry((float) (((barWidth)/2 + spaceForBar)*z), (float) value));
+                 xAxisLables.add(value + " "+ i);
+                  z++;
+             }
+            barchart(horizontalBarChart,values,xAxisLables,barWidth);
         }
-        barchart(horizontalBarChart,values,xAxisLables,barWidth);
+        else{
+                createHorizontalChart();
+        }
 
 
     }
