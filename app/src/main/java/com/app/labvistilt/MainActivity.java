@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     LinearLayout listButtons;
     private boolean buttonClicked = false;
     private boolean play = false;
+    int actualIndex;
+    int beforeIndex;
     Pie pie;
 
     //***********************
@@ -586,26 +589,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             final Button[] dynamic_button = new Button[scrollBarLocation.size()];//scrollBarLocation.size()
 
             for(int i = 0; i< scrollBarLocation.size(); i++){ //scrollBarLocation.size()
-                final int index;
-                
-                index = i;
+                final int index = i;
                 dynamic_button[i] = new Button(this);
                 dynamic_button[i].setText(scrollBarLocation.get(i));
                 dynamic_button[i].setId(i);
                 //newButton.setBackgroundColor(0xFF99D6D6);
-                dynamic_button[i].setFocusableInTouchMode(true);
-
+                //dynamic_button[i].setFocusableInTouchMode(true);
+                if(scrollBarLocation.get(i).equals("All location")){
+                    beforeIndex = i;
+                    dynamic_button[i].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
+                }
                 dynamic_button[i].setTextSize(10);
+
                 listButtons.addView(dynamic_button[i]);
                 dynamic_button[i].setOnClickListener(new OnClickListener() {
+
                     public void onClick(View v) {
                         try {
+                            dynamic_button[beforeIndex].getBackground().clearColorFilter();
+                            //dynamic_button[beforeIndex].getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                             AnotherPieChart(((Button)v).getText().toString());
                             pieChart.notifyDataSetChanged();
                             titleChart.setText("Total crimes by location" + " : " + ((Button)v).getText().toString());
                             pieChart.invalidate();
-
-
+                            beforeIndex = index;
+                            dynamic_button[index].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -627,13 +635,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         else{
             listButtons.removeAllViews();
             buttonClicked = false;
-            Button[] dynamic_button = new Button[totalCrimes.size()];
+            final Button[] dynamic_button = new Button[totalCrimes.size()];
             int i=0;
             for ( String key : totalCrimes.keySet() ) {
                 final String keyValue = key;
+                final int index = i;
                 dynamic_button[i] = new Button(this);
                 dynamic_button[i].setText(key);
-                //newButton.setBackgroundColor(0xFF99D6D6);
+                if(key.equals("All crimes")){
+                    beforeIndex = i;
+                    dynamic_button[i].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
+                }
                 dynamic_button[i].setTextSize(10);
                 dynamic_button[i].setId(i);
                 listButtons.addView(dynamic_button[i]);
@@ -641,21 +653,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     public void onClick(View v) {
                         //show only the option selected
                         try{
+                            dynamic_button[beforeIndex].getBackground().clearColorFilter();
                             createHorizontalAnotherChart(((Button)v).getText().toString());
                             horizontalBarChart.notifyDataSetChanged();
+                            titleChart.setText("Amount of crimes distributed in three periods of the day" );
                             horizontalBarChart.invalidate();
+                            beforeIndex = index;
+                            dynamic_button[index].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
 
-                           /* Description description = new Description();
-                            description.setText("Crime type");
-                            pieChart.setDescription(description);
-                            ArrayList<PieEntry> pieEntries= new ArrayList<>();
-                            pieEntries.add(new PieEntry( (float) totalCrimes.get(keyValue), keyValue));
-                            PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
-                            pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
-                            PieData pieData = new PieData(pieDataSet);
-                            pieChart.setData(pieData);
-                            pieChart.notifyDataSetChanged();
-                            pieChart.invalidate();*/
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -815,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public static void barchart(BarChart barChart, ArrayList<BarEntry> arrayList, final ArrayList<String> xAxisValues, float barWith) {
 
 
-        BarDataSet barDataSet = new BarDataSet(arrayList, "Number of crimes in different periods of the day");
+        BarDataSet barDataSet = new BarDataSet(arrayList, "Periods of the day");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         BarData barData = new BarData(barDataSet);
