@@ -593,19 +593,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 dynamic_button[i].setText(scrollBarLocation.get(i));
                 dynamic_button[i].setId(i);
                 //newButton.setBackgroundColor(0xFF99D6D6);
+                dynamic_button[i].setFocusableInTouchMode(true);
 
                 dynamic_button[i].setTextSize(10);
                 listButtons.addView(dynamic_button[i]);
                 dynamic_button[i].setOnClickListener(new OnClickListener() {
                     public void onClick(View v) {
                         try {
-                            //otherPieChartNewVersion(((Button)v).getText().toString());
                             AnotherPieChart(((Button)v).getText().toString());
                             pieChart.notifyDataSetChanged();
                             titleChart.setText("Total crimes by location" + " : " + ((Button)v).getText().toString());
                             pieChart.invalidate();
 
-                            //dynamic_button[index].setBackgroundColor(Color.GREEN);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -767,7 +767,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             xAxisLables.add(value +  " "+ i);
             z++;
         }
-        Log.i(TAG, "createHorizontalChart: "+ PeriodCrimes);
         barchart(horizontalBarChart,values,xAxisLables,barWidth);
 
     }
