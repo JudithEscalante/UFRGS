@@ -767,11 +767,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             xAxisLables.add(value +  " "+ i);
             z++;
         }
+        Log.i(TAG, "createHorizontalChart: "+ PeriodCrimes);
         barchart(horizontalBarChart,values,xAxisLables,barWidth);
 
     }
     private void createHorizontalAnotherChart(String filter) throws JSONException {
         HashMap<String, Integer> periods = new HashMap<String, Integer>(50, 10);
+        periods.put("Night", 0);
+        periods.put("Morning", 0);
+        periods.put("Afternoon", 0);
         JSONObject json = loadJsonObjectFromAsset("file.json");
         JSONArray principalArray = json.getJSONArray(dataSize);
         for(int i = 0; i< principalArray.length(); i++) {
@@ -789,10 +793,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if(!filter.equals("All crimes")){
            float spaceForBar = 0.5f;
-           float barWidth = 0.9f;
+            float barWidth = 0.9f;
+            float z =0.1f;
            ArrayList<String> xAxisLables = new ArrayList();
            ArrayList<BarEntry> values = new ArrayList<>();
-           float z =0.1f;
             for(String i : periods.keySet()){
                  Integer value = periods.get(i);
                  values.add(new BarEntry((float) (((barWidth)/2 + spaceForBar)*z), (float) value));
