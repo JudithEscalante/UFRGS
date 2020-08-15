@@ -21,7 +21,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
