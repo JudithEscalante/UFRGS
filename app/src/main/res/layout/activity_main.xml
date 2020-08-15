@@ -152,7 +152,7 @@
                                 android:layout_gravity="top"
                                 android:layout_marginLeft="@dimen/fab_margin"
                                 android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/arrow_righ" />
+                                android:background="@drawable/arrow_right" />
 
                             <Button
                                 android:id="@+id/menu"

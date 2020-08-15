@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -48,10 +49,14 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
-
-
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -75,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     LinearLayout listButtons;
     private boolean buttonClicked = false;
     private boolean play = false;
+    int actualIndex;
+    int beforeIndex;
     Pie pie;
 
     //***********************
@@ -488,6 +495,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             int count =0;
             JSONArray principalArray = json.getJSONArray(dataSize);
             count = ((dataSize.equals("small")) ? 30: ((dataSize.equals("medium")) ? 60: 120));
+            scrollBarLocation.add("All location");
+            totalCrimes.put("All crimes",0);
 
             for(int i = 0; i< principalArray.length(); i++){
                 String locationName = principalArray.getJSONObject(i).getString("Location");
@@ -499,6 +508,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Integer w = totalCrimes.get(crime);
                 if(w == null) totalCrimes.put(crime, 1);
                 else totalCrimes.put(crime, w + 1);
+                totalCrimes = sortHashMapByValues(totalCrimes);
 
                 String period = principalArray.getJSONObject(i).getString("Period");
                 Integer z = PeriodCrimes.get(period);
@@ -508,15 +518,42 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
 
-                Log.d(TAG, "loadData:     " + scrollBarLocation);
+            //Log.i(TAG, "loadDatasort: " + totalCrimes);
 
-
-           // Log.d(TAG, "loadData:" + scrollBarLocation.size());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public LinkedHashMap<String, Integer> sortHashMapByValues(HashMap<String, Integer> passedMap) {
+        List<String> mapKeys = new ArrayList<>(passedMap.keySet());
+        List<Integer> mapValues = new ArrayList<>(passedMap.values());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        LinkedHashMap<String, Integer>sortedMap =
+                new LinkedHashMap<>();
+
+        Iterator<Integer> valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Integer val = valueIt.next();
+            Iterator<String> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                String key = keyIt.next();
+                Integer comp1 = passedMap.get(key);
+                Integer comp2 = val;
+
+                if (comp1.equals(comp2)) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        return sortedMap;
     }
 
 
@@ -552,26 +589,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             final Button[] dynamic_button = new Button[scrollBarLocation.size()];//scrollBarLocation.size()
 
             for(int i = 0; i< scrollBarLocation.size(); i++){ //scrollBarLocation.size()
-                final int index;
-                
-                index = i;
+                final int index = i;
                 dynamic_button[i] = new Button(this);
                 dynamic_button[i].setText(scrollBarLocation.get(i));
                 dynamic_button[i].setId(i);
                 //newButton.setBackgroundColor(0xFF99D6D6);
-
+                //dynamic_button[i].setFocusableInTouchMode(true);
+                if(scrollBarLocation.get(i).equals("All location")){
+                    beforeIndex = i;
+                    dynamic_button[i].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
+                }
                 dynamic_button[i].setTextSize(10);
+
                 listButtons.addView(dynamic_button[i]);
                 dynamic_button[i].setOnClickListener(new OnClickListener() {
+
                     public void onClick(View v) {
                         try {
-                            //otherPieChartNewVersion(((Button)v).getText().toString());
+                            dynamic_button[beforeIndex].getBackground().clearColorFilter();
+                            //dynamic_button[beforeIndex].getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
                             AnotherPieChart(((Button)v).getText().toString());
                             pieChart.notifyDataSetChanged();
                             titleChart.setText("Total crimes by location" + " : " + ((Button)v).getText().toString());
                             pieChart.invalidate();
-
-                            //dynamic_button[index].setBackgroundColor(Color.GREEN);
+                            beforeIndex = index;
+                            dynamic_button[index].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -593,13 +635,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         else{
             listButtons.removeAllViews();
             buttonClicked = false;
-            Button[] dynamic_button = new Button[totalCrimes.size()];
+            final Button[] dynamic_button = new Button[totalCrimes.size()];
             int i=0;
             for ( String key : totalCrimes.keySet() ) {
                 final String keyValue = key;
+                final int index = i;
                 dynamic_button[i] = new Button(this);
                 dynamic_button[i].setText(key);
-                //newButton.setBackgroundColor(0xFF99D6D6);
+                if(key.equals("All crimes")){
+                    beforeIndex = i;
+                    dynamic_button[i].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
+                }
                 dynamic_button[i].setTextSize(10);
                 dynamic_button[i].setId(i);
                 listButtons.addView(dynamic_button[i]);
@@ -607,21 +653,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     public void onClick(View v) {
                         //show only the option selected
                         try{
+                            dynamic_button[beforeIndex].getBackground().clearColorFilter();
                             createHorizontalAnotherChart(((Button)v).getText().toString());
                             horizontalBarChart.notifyDataSetChanged();
+                            titleChart.setText("Amount of crimes distributed in three periods of the day" );
                             horizontalBarChart.invalidate();
+                            beforeIndex = index;
+                            dynamic_button[index].getBackground().setColorFilter(0xFF99D6D6, PorterDuff.Mode.MULTIPLY);
 
-                           /* Description description = new Description();
-                            description.setText("Crime type");
-                            pieChart.setDescription(description);
-                            ArrayList<PieEntry> pieEntries= new ArrayList<>();
-                            pieEntries.add(new PieEntry( (float) totalCrimes.get(keyValue), keyValue));
-                            PieDataSet pieDataSet =new PieDataSet(pieEntries,"text");
-                            pieDataSet.setColors (ColorTemplate.COLORFUL_COLORS);
-                            PieData pieData = new PieData(pieDataSet);
-                            pieChart.setData(pieData);
-                            pieChart.notifyDataSetChanged();
-                            pieChart.invalidate();*/
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -656,24 +696,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             if (filter.equals(locationName)) {
                 Integer w = crimes.get(crimeType);
-
                 if (w == null) crimes.put(crimeType, 1);
                 else crimes.put(crimeType, w + 1);
-
-
-
             }
-
         }
 
-        ArrayList<PieEntry> pieEntries= new ArrayList<>();
-
-        for(String i : crimes.keySet()){
-            Integer value = crimes.get(i);
-            pieEntries.add(new PieEntry( (float) value, i));
+        if(!filter.equals("All location")){
+            ArrayList<PieEntry> pieEntries= new ArrayList<>();
+            for(String i : crimes.keySet()){
+                Integer value = crimes.get(i);
+                pieEntries.add(new PieEntry( (float) value, i));
+            }
+            piechart(pieChart, pieEntries);
+        }
+        else{
+            createPieChart();
         }
 
-        piechart(pieChart, pieEntries);
+
+
 
     }
 
@@ -737,6 +778,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     private void createHorizontalAnotherChart(String filter) throws JSONException {
         HashMap<String, Integer> periods = new HashMap<String, Integer>(50, 10);
+        periods.put("Night", 0);
+        periods.put("Morning", 0);
+        periods.put("Afternoon", 0);
         JSONObject json = loadJsonObjectFromAsset("file.json");
         JSONArray principalArray = json.getJSONArray(dataSize);
         for(int i = 0; i< principalArray.length(); i++) {
@@ -749,20 +793,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 else periods.put(period, w + 1);
             }
 
+
         }
 
-        float spaceForBar = 0.5f;
-        float barWidth = 0.9f;
-        ArrayList<String> xAxisLables = new ArrayList();
-        ArrayList<BarEntry> values = new ArrayList<>();
-        float z =0.1f;
-        for(String i : periods.keySet()){
-            Integer value = periods.get(i);
-            values.add(new BarEntry((float) (((barWidth)/2 + spaceForBar)*z), (float) value));
-            xAxisLables.add(value + " "+ i);
-            z++;
+        if(!filter.equals("All crimes")){
+           float spaceForBar = 0.5f;
+            float barWidth = 0.9f;
+            float z =0.1f;
+           ArrayList<String> xAxisLables = new ArrayList();
+           ArrayList<BarEntry> values = new ArrayList<>();
+            for(String i : periods.keySet()){
+                 Integer value = periods.get(i);
+                 values.add(new BarEntry((float) (((barWidth)/2 + spaceForBar)*z), (float) value));
+                 xAxisLables.add(value + " "+ i);
+                  z++;
+             }
+            barchart(horizontalBarChart,values,xAxisLables,barWidth);
         }
-        barchart(horizontalBarChart,values,xAxisLables,barWidth);
+        else{
+                createHorizontalChart();
+        }
 
 
     }
@@ -771,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public static void barchart(BarChart barChart, ArrayList<BarEntry> arrayList, final ArrayList<String> xAxisValues, float barWith) {
 
 
-        BarDataSet barDataSet = new BarDataSet(arrayList, "Number of crimes in different periods of the day");
+        BarDataSet barDataSet = new BarDataSet(arrayList, "Periods of the day");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         BarData barData = new BarData(barDataSet);
