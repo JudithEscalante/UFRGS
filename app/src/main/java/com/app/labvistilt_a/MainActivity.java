@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     scrollBarLocation.clear();
                     listButtons.scrollTo(0 ,0);
                     text.setText("Test A : "+dataSize);
-                   loadScrollBar();
+                    loadScrollBar();
                 }
 
 
