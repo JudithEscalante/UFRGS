@@ -4,8 +4,6 @@
     <item android:drawable="@drawable/buttoncolor1"
            android:duration = "25"/>
 
-
-
     <item android:drawable="@drawable/buttoncolor3"
         android:duration = "25"/>
 </animation-list>

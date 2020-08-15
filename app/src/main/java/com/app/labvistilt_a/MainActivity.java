@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
@@ -156,14 +157,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     scrollBarLocation.clear();
                     listButtons.scrollTo(0 ,0);
                     text.setText("Test A : "+dataSize);
-                    loadScrollBar();
-                }else if(testId == 3){
-                    testId = testId +1;
-                    text.setText("Test B : ");
-
-                    openNewActivityTestB();
-                    
+                   loadScrollBar();
                 }
+
 
             }
          });
@@ -171,13 +167,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(testId>1 && testId <=4) {
+                if(testId>1 && testId <=3) {
                     testId = testId - 1;
                     dataSize = showTest(testId);
                     scrollBarLocation.clear();
                     listButtons.scrollTo(0, 0);
                     text.setText("Test A : " + dataSize);
                     loadScrollBar();
+
                 }
             }
         });
@@ -234,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //dataSize = getIntent().getStringExtra("option");
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
 

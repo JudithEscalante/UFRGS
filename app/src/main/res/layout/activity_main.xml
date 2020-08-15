@@ -18,349 +18,393 @@
     android:visibility="invisible"/> -->
 
 
+        <androidx.cardview.widget.CardView
 
-    <androidx.cardview.widget.CardView
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-123dp">
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="402dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/ChartTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:text="" />
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pieChart"
-                    android:layout_width="402dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/fab_margin"
-                    >
-
-                </com.github.mikephil.charting.charts.PieChart>
-
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/horizontalChart"
-                    android:layout_width="390dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/fab_margin"
-                    android:visibility="invisible"/>
-
-                <!--<com.anychart.AnyChartView
-                    android:id="@+id/any_chart_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />-->
-            </RelativeLayout>
-
-
-
-
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="-123dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
-                <!--	<TextView
-                        android:layout_width="fill_parent"
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/menucolor1" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Crime"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:ignore="MissingConstraints" />   -->
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <Button
+                            android:id="@+id/menu"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="@dimen/fab_margin"
+                            android:background="@drawable/iconfinder__home_house_building_property_estate_4213424" />
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="LABVis Tilt"
+                            android:textSize="8pt"
+                            android:textStyle="bold"
+                            android:textColor="#ffffff"/>
 
 
-                <TextView
-                    android:id="@+id/testType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center"
-                    />
+                        <Button
+                            android:id="@+id/back"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="12dp"
+                            android:background="@drawable/arrow_left"
+                            android:layout_marginRight="@dimen/fab_margin"/>
+                        <TextView
+                            android:id="@+id/testType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="6pt"
+                            android:textStyle="bold"
+                            android:textColor="#ffffff"
 
-                <TableLayout
+                            />
+
+                        <Button
+                            android:id="@+id/next"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="@dimen/fab_margin"
+                            android:layout_marginRight="@dimen/fab_margin"
+                            android:background="@drawable/arrow_right" />
+
+                    </LinearLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:stretchColumns="*"
-                    tools:ignore="MissingConstraints">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                    <TableRow
+                    <RelativeLayout
+                        android:layout_width="402dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ChartTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/fab_margin"
+                            android:text="" />
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/pieChart"
+                            android:layout_width="402dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/fab_margin"
+                            >
+
+                        </com.github.mikephil.charting.charts.PieChart>
+
+                        <com.github.mikephil.charting.charts.HorizontalBarChart
+                            android:id="@+id/horizontalChart"
+                            android:layout_width="390dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/fab_margin"
+                            android:visibility="invisible"/>
+
+                        <!--<com.anychart.AnyChartView
+                            android:id="@+id/any_chart_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />-->
+                    </RelativeLayout>
+
+
+
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="226dp"
+                        <!--	<TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Crime"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingConstraints" />   -->
+
+
+
+
+                        <TableLayout
+                            android:layout_width="match_parent"
                             android:layout_height="75dp"
-                            android:orientation="horizontal">
-
-                            <RadioGroup
-                                android:id="@+id/radioGroup"
-                                android:layout_width="96dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="bottom|start"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                >
-
-                                <RadioButton
-                                    android:id="@+id/radioButtonLocation"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:checked="true"
-
-                                    android:text="Location" />
-
-                                <RadioButton
-                                    android:id="@+id/radioButtonCrime"
-                                    android:layout_width="84dp"
-                                    android:layout_height="wrap_content"
-
-                                    android:text="Crime" />
-                            </RadioGroup>
-
-                            <Button
-                                android:id="@+id/back"
-                                android:layout_width="33dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="top"
-                                android:layout_marginLeft="12dp"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/arrow_left" />
-
-                            <Button
-                                android:id="@+id/next"
-                                android:layout_width="33dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="top"
-                                android:layout_marginLeft="@dimen/fab_margin"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/arrow_right" />
-
-                            <Button
-                                android:id="@+id/menu"
-                                android:layout_width="33dp"
-                                android:layout_height="34dp"
-                                android:layout_gravity="top"
-                                android:layout_marginLeft="@dimen/fab_margin"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:background="@drawable/iconfinder__home_house_building_property_estate_4213424" />
-
-                            <LinearLayout
-                                android:layout_width="95dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:orientation="vertical"
-                                android:visibility="invisible">
-
-
-                                <TextView
-                                    android:id="@+id/textView3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Speed: " />
-
-                                <TextView
-                                    android:id="@+id/velocity"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1" />
-
-                                <Switch
-                                    android:id="@+id/switchButton"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Button" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </TableRow>
-
-                    <!--<TableRow>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="X-Axis"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Y-Axis"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Z-Axis"
-                            android:textSize="14sp" />
-                    </TableRow> -->
-
-                    <!--<TableRow>
-                        <TextView
-                            android:id="@+id/x_axis"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center" />
-                        <TextView
-                            android:id="@+id/y_axis"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center" />
-                        <TextView
-                            android:id="@+id/z_axis"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center" />
-                    </TableRow> -->
-                </TableLayout>
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <!--<Button
-                                android:id="@+id/button2"
-                                android:layout_width="103dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Button" /> -->
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="262dp">
-
-                        <LinearLayout
-                            android:layout_width="260dp"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
+                            android:stretchColumns="*"
+                            tools:ignore="MissingConstraints">
 
                             <TableRow
-                                android:layout_width="147dp"
-                                android:layout_height="match_parent">
-
-                                <androidx.core.widget.NestedScrollView
-                                    android:id="@+id/scrollView"
-                                    android:layout_width="130dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="@dimen/fab_margin"
-                                    android:clipToPadding="true">
-
-                                    <LinearLayout
-                                        android:id="@+id/scrollBar"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:orientation="vertical"></LinearLayout>
-                                </androidx.core.widget.NestedScrollView>
-                            </TableRow>
-
-                            <TableRow
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent">
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical">
+                                    android:layout_width="226dp"
+                                    android:layout_height="75dp"
+                                    android:orientation="horizontal">
 
-                                    <Button
-                                        android:id="@+id/button_move_up"
-                                        android:layout_width="wrap_content"
+                                    <RadioGroup
+                                        android:id="@+id/radioGroup"
+                                        android:layout_width="96dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom|start"
+                                        android:layout_marginTop="@dimen/fab_margin"
+                                        >
+
+                                        <RadioButton
+                                            android:id="@+id/radioButtonLocation"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:checked="true"
+
+                                            android:text="Location" />
+
+                                        <RadioButton
+                                            android:id="@+id/radioButtonCrime"
+                                            android:layout_width="84dp"
+                                            android:layout_height="wrap_content"
+
+                                            android:text="Crime" />
+                                    </RadioGroup>
+
+
+
+
+
+                                    <LinearLayout
+                                        android:layout_width="95dp"
                                         android:layout_height="wrap_content"
-                                        android:background="@drawable/arrow_up"
-                                        android:text=""
-                                        android:visibility="invisible" />
-
-                                    <Button
-                                        android:id="@+id/button_move_down"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/arrow_down"
-                                        android:text=""
-                                        android:visibility="invisible" />
+                                        android:layout_marginTop="@dimen/fab_margin"
+                                        android:orientation="vertical"
+                                        android:visibility="invisible">
 
 
-                                    <RelativeLayout
-                                        android:layout_width="58dp"
-                                        android:layout_height="wrap_content">
-
-                                        <Button
-                                            android:id="@+id/button_tilt"
-                                            android:layout_width="58dp"
+                                        <TextView
+                                            android:id="@+id/textView3"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="bottom"
-                                            android:background="?android:attr/fingerprintAuthDrawable"
-                                            android:text="" />
-                                        <Button
-                                            android:id="@+id/button_play"
-                                            android:layout_width="58dp"
+                                            android:layout_weight="1"
+                                            android:text="Speed: " />
+
+                                        <TextView
+                                            android:id="@+id/velocity"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:background="@drawable/play"
-                                            android:text=""
-                                            android:visibility="invisible"/>
-                                        <Button
-                                            android:id="@+id/button_pause"
-                                            android:layout_width="58dp"
+                                            android:layout_weight="1" />
+
+                                        <Switch
+                                            android:id="@+id/switchButton"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:background="@drawable/pause"
-                                            android:text=""
-                                            android:visibility="invisible"/>
-                                    </RelativeLayout>
+                                            android:layout_weight="1"
+                                            android:text="Button" />
+                                    </LinearLayout>
 
                                 </LinearLayout>
 
                             </TableRow>
 
-                        </LinearLayout>
+                            <!--<TableRow>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="X-Axis"
+                                    android:textSize="14sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Y-Axis"
+                                    android:textSize="14sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Z-Axis"
+                                    android:textSize="14sp" />
+                            </TableRow> -->
 
-                    </TableRow>
+                            <!--<TableRow>
+                                <TextView
+                                    android:id="@+id/x_axis"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center" />
+                                <TextView
+                                    android:id="@+id/y_axis"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center" />
+                                <TextView
+                                    android:id="@+id/z_axis"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center" />
+                            </TableRow> -->
+                        </TableLayout>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <!--<Button
+                                        android:id="@+id/button2"
+                                        android:layout_width="103dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Button" /> -->
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="262dp">
+
+                                <LinearLayout
+                                    android:layout_width="260dp"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal">
 
 
-                </TableLayout>
+                                    <TableRow
+                                        android:layout_width="147dp"
+                                        android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
+                                        <androidx.core.widget.NestedScrollView
+                                            android:id="@+id/scrollView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginTop="@dimen/fab_margin"
+                                            android:clipToPadding="true">
 
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="58dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom|start"
-                    android:layout_marginTop="200dp"
-                    android:background="@drawable/menu_small" />
+                                            <LinearLayout
+                                                android:id="@+id/scrollBar"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:orientation="vertical"></LinearLayout>
+                                        </androidx.core.widget.NestedScrollView>
+                                    </TableRow>
 
+                                    <TableRow
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="vertical">
+
+                                            <Button
+                                                android:id="@+id/button_move_up"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/arrow_up"
+                                                android:text=""
+                                                android:visibility="invisible" />
+
+                                            <Button
+                                                android:id="@+id/button_move_down"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/arrow_down"
+                                                android:text=""
+                                                android:visibility="invisible" />
+
+
+                                            <RelativeLayout
+                                                android:layout_width="58dp"
+                                                android:layout_height="wrap_content">
+
+                                                <Button
+                                                    android:id="@+id/button_tilt"
+                                                    android:layout_width="58dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="bottom"
+                                                    android:background="?android:attr/fingerprintAuthDrawable"
+                                                    android:text="" />
+                                                <Button
+                                                    android:id="@+id/button_play"
+                                                    android:layout_width="58dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:background="@drawable/play"
+                                                    android:text=""
+                                                    android:visibility="invisible"/>
+                                                <Button
+                                                    android:id="@+id/button_pause"
+                                                    android:layout_width="58dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:background="@drawable/pause"
+                                                    android:text=""
+                                                    android:visibility="invisible"/>
+                                            </RelativeLayout>
+
+                                        </LinearLayout>
+
+                                    </TableRow>
+
+                                </LinearLayout>
+
+                            </TableRow>
+
+
+                        </TableLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="58dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="bottom|start"
+                            android:layout_marginTop="200dp"
+                            android:background="@drawable/menu_small" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
 
-        </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
