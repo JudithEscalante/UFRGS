@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:layout_alignParentBottom="false"
     android:orientation="horizontal"
+    android:background="@drawable/background"
     tools:context=".Menu">
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -16,19 +18,27 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_marginTop="90dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:background="@drawable/icon" />
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Bem-Vindo!"
-                android:textColor="#8A2BE2"
-                android:textSize="15pt" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="LABVis Tilt"
+                android:textSize="15pt"
+                android:textStyle="bold"
+                android:textColor="#023859"
+                android:gravity="right" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,22 +69,26 @@
                   android:id="@+id/small"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="Small"
+                  android:textSize="16sp"
+                  android:textColor="@android:color/white"
+                  android:layout_marginBottom="16dp"
+                  android:background="@drawable/animatiobutton"
+                  android:text="Start"
                   />
 
-              <Button
-                  android:id="@+id/medium"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Median"
-                  />
+            <!-- <Button
+                 android:id="@+id/medium"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Median"
+                 />
 
-              <Button
-                  android:id="@+id/large"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Large"
-                  />
+             <Button
+                 android:id="@+id/large"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Large"
+                 />-->
           </LinearLayout>
 
           <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton

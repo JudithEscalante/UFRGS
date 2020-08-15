@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/buttoncolor1"
+           android:duration = "25"/>
+
+
+
+    <item android:drawable="@drawable/buttoncolor3"
+        android:duration = "25"/>
+</animation-list>

@@ -15,7 +15,9 @@
            android:layout_height="wrap_content"
            android:id="@+id/image"
            android:layout_gravity="center"
-           android:visibility="invisible"/> -->
+    android:visibility="invisible"/> -->
+
+
 
     <androidx.cardview.widget.CardView
 

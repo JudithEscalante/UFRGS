@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Button button_pause;
     Switch buttonFinger;
     TextView titleChart;
+    Toolbar toolbar;
     TextView testType;
     private int testId = 1;
 
@@ -201,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+
+
       /*  next.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,6 +254,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //************* pie chart ****************
 
     }
+
+
+
     public void openNewActivity(){
         Intent intent = new Intent(this, Menu.class);
         startActivity(intent);
@@ -822,7 +829,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         BarDataSet barDataSet = new BarDataSet(arrayList, "Periods of the day");
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
         BarData barData = new BarData(barDataSet);
         barData.setBarWidth(barWith);
@@ -846,82 +853,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-    /*private void PieChartNewVersion(){
-        anyChartView.clear();
-
-        List<DataEntry> data = new ArrayList<>();
-
-        for(String i : totalCrimes.keySet()){
-            Integer value = totalCrimes.get(i);
-            data.add(new ValueDataEntry( i,  value));
-        }
-
-        pie.data(data);
-
-        pie.title("Number of crimes for each location");
-
-        pie.labels().position("outside");
-
-        pie.legend().title().enabled(true);
-        pie.legend().title()
-                .text("Retail channels")
-                .padding(0d, 0d, 10d, 0d);
-
-        pie.legend()
-                .position("center-bottom")
-                .itemsLayout(LegendLayout.HORIZONTAL)
-                .align(Align.CENTER);
-
-        anyChartView.setChart(pie);
-
-    }
-
-
-    private void otherPieChartNewVersion(String filter) throws JSONException {
-        anyChartView.clear();
-        HashMap<String, Integer> crimes = new HashMap<String, Integer>(50, 10);
-        JSONObject json = loadJsonObjectFromAsset("file.json");
-        JSONArray principalArray = json.getJSONArray(dataSize);
-        for(int i = 0; i< principalArray.length(); i++) {
-            String locationName = principalArray.getJSONObject(i).getString("Location");
-            String crimeType = principalArray.getJSONObject(i).getString("CrimeType");
-
-            if (filter.equals(locationName)) {
-                Integer w = crimes.get(crimeType);
-                if (w == null) crimes.put(crimeType, 1);
-                else crimes.put(crimeType, w + 1);
-
-            }
-
-        }
-
-        List<DataEntry> data = new ArrayList<>();
-
-        for(String i : crimes.keySet()){
-            Integer value = crimes.get(i);
-            data.add(new ValueDataEntry( i,  value));
-        }
-
-        pie.data(data);
-
-        pie.title("Number of crimes for each location");
-
-        pie.labels().position("outside");
-
-        pie.legend().title().enabled(true);
-        pie.legend().title()
-                .text("Retail channels")
-                .padding(0d, 0d, 10d, 0d);
-
-        pie.legend()
-                .position("center-bottom")
-                .itemsLayout(LegendLayout.HORIZONTAL)
-                .align(Align.CENTER);
-
-        anyChartView.setChart(pie);
-
-
-    }*/
 
 }
 

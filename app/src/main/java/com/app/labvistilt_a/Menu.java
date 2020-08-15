@@ -41,7 +41,7 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-        medium = (Button) findViewById(R.id.medium);
+        /*medium = (Button) findViewById(R.id.medium);
         medium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +55,7 @@ public class Menu extends AppCompatActivity {
             public void onClick(View v) {
                 openMainActivityLarge();
             }
-        });
+        });*/
 
 
         //Toolbar toolbar = findViewById(R.id.toolbar);
