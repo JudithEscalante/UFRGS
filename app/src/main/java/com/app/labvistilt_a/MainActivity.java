@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 scrollBarLocation.clear();
                 totalCrimes.clear();
                 PeriodCrimes.clear();
-                if(testId>=1 && testId <3){
+                if(testId>=1 && testId <=3){
                     back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
@@ -167,8 +167,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     checkedOnRadioButton();
                     pieChart.invalidate();
                 }
-             if(testId==3){
-                    next.setVisibility(View.INVISIBLE);
+             if(testId==4){
+                    //next.setVisibility(View.INVISIBLE);
+                    openNewActivityTestB();
                 }
 
 

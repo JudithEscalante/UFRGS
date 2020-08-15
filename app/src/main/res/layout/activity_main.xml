@@ -48,8 +48,8 @@
                         android:weightSum="1">
                         <Button
                             android:id="@+id/menu"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginRight="@dimen/fab_margin"
                             android:background="@drawable/iconfinder__home_house_building_property_estate_4213424" />
 
@@ -59,15 +59,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="LABVis Tilt"
-                            android:textSize="8pt"
+                            android:textSize="10pt"
                             android:textStyle="bold"
                             android:textColor="#ffffff"/>
 
 
                         <Button
                             android:id="@+id/back"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginLeft="12dp"
                             android:background="@drawable/arrow_left"
                             android:layout_marginRight="@dimen/fab_margin"/>
@@ -76,7 +76,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textSize="6pt"
+                            android:textSize="8pt"
                             android:textStyle="bold"
                             android:textColor="#ffffff"
 
@@ -84,8 +84,8 @@
 
                         <Button
                             android:id="@+id/next"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginLeft="@dimen/fab_margin"
                             android:layout_marginRight="@dimen/fab_margin"
                             android:background="@drawable/arrow_right" />
