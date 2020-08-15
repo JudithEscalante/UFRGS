@@ -146,12 +146,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         dataSize = "small";
         final Button next = (Button) findViewById(R.id.next);
+        final Button back = (Button) findViewById(R.id.back);
         final TextView text = (TextView) findViewById(R.id.testType);
+        back.setVisibility(View.INVISIBLE);
         text.setText("Test A : "+dataSize);
          next.setOnClickListener(new OnClickListener() {
          @Override
             public void onClick(View view) {
                 if(testId>=1 && testId <3){
+                    back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
                     scrollBarLocation.clear();
@@ -159,15 +162,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     text.setText("Test A : "+dataSize);
                     loadScrollBar();
                 }
+             if(testId==3){
+                    next.setVisibility(View.INVISIBLE);
+                }
 
 
             }
          });
-         final Button back = (Button) findViewById(R.id.back);
+
          back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(testId>1 && testId <=3) {
+                    next.setVisibility(View.VISIBLE);
                     testId = testId - 1;
                     dataSize = showTest(testId);
                     scrollBarLocation.clear();
@@ -176,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     loadScrollBar();
 
                 }
+                if(testId==1){
+                    back.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
 
