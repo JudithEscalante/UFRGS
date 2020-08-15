@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //private ScrollListener mListener;
     private Sensor accelerometer;
     NestedScrollView mLayout;
-    private int velocity = 1;
+    private int velocity = 3;
     private String dataSize;
     private int maxScrollY = 2950;
 
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
-
                     listButtons.scrollTo(0 ,0);
                     text.setText("Test A : "+dataSize);
                     loadScrollBar();
@@ -171,8 +170,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //next.setVisibility(View.INVISIBLE);
                     openNewActivityTestB();
                 }
-
-
             }
          });
 
@@ -323,8 +320,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(test==1) st = "small";
         if(test==2) st = "medium";
         if(test==3) st = "large";
-        if(test==4) st = "4";
-        if(test==5) st = "5";
         return st;
     }
 
