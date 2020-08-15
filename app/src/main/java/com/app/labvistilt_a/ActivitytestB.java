@@ -261,9 +261,9 @@ public class ActivitytestB extends AppCompatActivity {
                 horizontalBarChart.invalidate();
             }
 
-            if(dataSize.equals("small")) maxScrollY = 3728;
-            if(dataSize.equals("medium")) maxScrollY = 7950;
-            if(dataSize.equals("large")) maxScrollY = 16650;
+            if(dataSize.equals("small")) maxScrollY = 3300;
+            if(dataSize.equals("medium")) maxScrollY = 7020;
+            if(dataSize.equals("large")) maxScrollY = 14646;
 
         } catch (JSONException e) {
             e.printStackTrace();

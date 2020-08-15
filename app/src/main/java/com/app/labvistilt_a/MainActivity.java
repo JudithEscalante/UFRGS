@@ -144,6 +144,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }); */
 
+        final RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
+        crime.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(crime.isChecked()){
+                    scrollBarLocation.clear();
+                    totalCrimes.clear();
+                    PeriodCrimes.clear();
+                    listButtons.scrollTo(0 ,0);
+                    loadScrollBar();
+                    checkedOnRadioButton();
+                    horizontalBarChart.invalidate();
+                }
+            }
+        });
+
+        final RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
+        location.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(location.isChecked()){
+                    scrollBarLocation.clear();
+                    totalCrimes.clear();
+                    PeriodCrimes.clear();
+                    listButtons.scrollTo(0 ,0);
+                    loadScrollBar();
+                    checkedOnRadioButton();
+                    pieChart.invalidate();
+                }
+            }
+        });
+
         dataSize = "small";
         final Button next = (Button) findViewById(R.id.next);
         final Button back = (Button) findViewById(R.id.back);
@@ -188,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     loadScrollBar();
                     checkedOnRadioButton();
 
+
                 }
                 if(testId==1){
                     back.setVisibility(View.INVISIBLE);
@@ -230,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         mInitialized = false;
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER_UNCALIBRATED);
 
 
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
@@ -296,9 +329,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 horizontalBarChart.invalidate();
             }
 
-            if(dataSize.equals("small")) maxScrollY = 3728;
-            if(dataSize.equals("medium")) maxScrollY = 7950;
-            if(dataSize.equals("large")) maxScrollY = 16650;
+
+            RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
+            RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
+            if(location.isChecked()){
+                if(dataSize.equals("small")) maxScrollY = 3300;
+                if(dataSize.equals("medium")) maxScrollY = 7020;
+                if(dataSize.equals("large")) maxScrollY = 14646;
+            }
+            if(crime.isChecked()){
+                maxScrollY = 1428;
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -375,8 +416,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        final float acceX = event.values[0];
-        final float acceZ = event.values[2];
+        final float acceX = event.values[0]; // TYPE_ACCELEROMETER_UNCALIBRATED sem nenhuma compensação de tendência.
+        final float acceZ = event.values[2]; // TYPE_ACCELEROMETER_UNCALIBRATED sem nenhuma compensação de tendência. //com estimativa de compensação não funciona
+
+
 
         final Button button_move_up = (Button) findViewById(R.id.button_move_up);
         final Button button_move_down = (Button) findViewById(R.id.button_move_down);
@@ -447,23 +490,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             if (scrollY < 0) {
                                 listButtons.scrollTo(scrollX, scrollY + velocity);
                                 //mLayout.setBackgroundColor(Color.GREEN);
-                                button_move_up.setVisibility(View.VISIBLE);
+                                //button_move_up.setVisibility(View.VISIBLE);
                                 button_move_down.setVisibility(View.INVISIBLE);
 
                             }
                             RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
                             RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
-                            if (location.isChecked() && scrollY > maxScrollY) {  //&& scrollY>2950
+                            if (scrollY > maxScrollY) {  //&& scrollY>2950
                                 listButtons.scrollTo(scrollX, scrollY - velocity);
                                 //mLayout.setBackgroundColor(Color.BLUE);
                                 button_move_up.setVisibility(View.INVISIBLE);
-                                button_move_down.setVisibility(View.VISIBLE);
+                                //button_move_down.setVisibility(View.VISIBLE);
                             }
-                            if (crime.isChecked() && scrollY > 264) {
-                                listButtons.scrollTo(scrollX, scrollY - velocity);
-                                button_move_up.setVisibility(View.INVISIBLE);
-                                button_move_down.setVisibility(View.VISIBLE);
-                            }
+
                         } else {
                             //if(acceX > 0 && acceZ < 10 ) {
                             if (acceZ > 2) {
