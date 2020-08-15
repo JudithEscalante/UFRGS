@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private final float NOISE = (float) 0.5;
-    int optionLocation = 1;
+    int optionRadioButton= 1;
     int optionCrime= 2;
     PieChart pieChart;
     HorizontalBarChart horizontalBarChart;
@@ -153,14 +153,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          next.setOnClickListener(new OnClickListener() {
          @Override
             public void onClick(View view) {
+                scrollBarLocation.clear();
+                totalCrimes.clear();
+                PeriodCrimes.clear();
                 if(testId>=1 && testId <3){
                     back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
-                    scrollBarLocation.clear();
+
                     listButtons.scrollTo(0 ,0);
                     text.setText("Test A : "+dataSize);
                     loadScrollBar();
+                    checkedOnRadioButton();
+                    pieChart.invalidate();
                 }
              if(testId==3){
                     next.setVisibility(View.INVISIBLE);
@@ -173,14 +178,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollBarLocation.clear();
+                totalCrimes.clear();
+                PeriodCrimes.clear();
                 if(testId>1 && testId <=3) {
                     next.setVisibility(View.VISIBLE);
                     testId = testId - 1;
                     dataSize = showTest(testId);
-                    scrollBarLocation.clear();
                     listButtons.scrollTo(0, 0);
                     text.setText("Test A : " + dataSize);
                     loadScrollBar();
+                    checkedOnRadioButton();
 
                 }
                 if(testId==1){
@@ -278,9 +286,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void loadScrollBar(){
         try {
             loadData();
-            createScrollBar(optionLocation);
-            createPieChart();
-            //PieChartNewVersion();
+            createScrollBar(optionRadioButton);
+            if(optionRadioButton ==1){
+                createPieChart();
+                pieChart.notifyDataSetChanged();
+                pieChart.invalidate();
+            }
+            else{
+                createHorizontalChart();
+                horizontalBarChart.notifyDataSetChanged();
+                horizontalBarChart.invalidate();
+            }
+
             if(dataSize.equals("small")) maxScrollY = 3728;
             if(dataSize.equals("medium")) maxScrollY = 7950;
             if(dataSize.equals("large")) maxScrollY = 16650;
@@ -312,7 +329,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void checkedOnRadioButton() {
         radioGroup =(RadioGroup) findViewById(R.id.radioGroup);
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -325,15 +341,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                     pieChart.notifyDataSetChanged();
                     pieChart.invalidate();
-                    //PieChartNewVersion();
-                    createScrollBar(optionLocation);
+                    optionRadioButton = 1;
+                    createScrollBar(optionRadioButton);
                 }else {
                     horizontalBarChart.setVisibility(View.VISIBLE);
                     pieChart.setVisibility(View.INVISIBLE);
                     createHorizontalChart();
                     horizontalBarChart.notifyDataSetChanged();
                     horizontalBarChart.invalidate();
-                    createScrollBar(optionCrime);
+                    optionRadioButton=2;
+                    createScrollBar(optionRadioButton);
                 }
             }
         });
