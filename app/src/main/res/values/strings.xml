@@ -12,4 +12,5 @@
     <string name="dialog_fire_missiles">test_missiles</string>
     <string name="fire">fire</string>
     <string name="cancel">Cancelar</string>
+    <string name="alert_dialog_two_buttons_title">Próximo teste</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.app.labvistilt;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
@@ -11,6 +12,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,12 +23,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
+import android.widget.Chronometer;
+import android.widget.Toast;
 
 import com.anychart.charts.Pie;
 import com.github.mikephil.charting.charts.BarChart;
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     NestedScrollView mLayout;
     private int velocity = 3;
     private String dataSize;
+    private String dialogBox;
     private int maxScrollY = 2950;
 
     Button button_play;
@@ -101,6 +110,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Toolbar toolbar;
     TextView testType;
     private int testId = 1;
+    //chronometer
+    private Chronometer chronometer;
+    private long pauseOffset;
+    private boolean running;
+
 
 
 
@@ -111,6 +125,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        chronometer = findViewById(R.id.chronometer);
+        chronometer.setFormat("Time: %s");
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        startChronometer();
+
         Button menu = (Button) findViewById(R.id.menu);
         menu.setOnClickListener(new OnClickListener() {
             @Override
@@ -119,30 +138,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        //final Button plus = (Button) findViewById(R.id.plus);
-        /**  final TextView text = (TextView) findViewById(R.id.velocity);
-        text.setText(showSpeed(velocity));
-        plus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(velocity>=1 && velocity<9){
-                    velocity = velocity + 2;
-                    text.setText(showSpeed(velocity));
-                }
-
-            }
-        });
-        final Button minus = (Button) findViewById(R.id.minus);
-        minus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(velocity>1 && velocity<=9){
-                    velocity = velocity - 2;
-                    text.setText(showSpeed(velocity));
-                }
-
-            }
-        }); */
 
         final RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
         crime.setOnClickListener(new OnClickListener() {
@@ -188,20 +183,34 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 scrollBarLocation.clear();
                 totalCrimes.clear();
                 PeriodCrimes.clear();
-                if(testId>=1 && testId <=3){
-                    back.setVisibility(View.VISIBLE);
-                    testId = testId +1;
-                    dataSize = showTest(testId);
-                    listButtons.scrollTo(0 ,0);
-                    text.setText("Test A : "+dataSize);
-                    loadScrollBar();
-                    checkedOnRadioButton();
-                    pieChart.invalidate();
+                pauseChronometer();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                // Create and show the dialog.
+                BoxDialogFragment newFragment = new BoxDialogFragment ().newInstance(chronometer.getText().toString());
+                newFragment.show(ft, "dialog");
+                if(newFragment.isVisible()){
+                    resetChronometer();
+                    pauseChronometer();
+                }else{
+                    startChronometer();
                 }
-             if(testId==4){
-                    //next.setVisibility(View.INVISIBLE);
-                    openNewActivityTestB();
-                }
+
+                    if(testId>=1 && testId <=3){
+                        back.setVisibility(View.VISIBLE);
+                        testId = testId +1;
+                        dataSize = showTest(testId);
+                        listButtons.scrollTo(0 ,0);
+                        text.setText("Test A : "+dataSize);
+                        loadScrollBar();
+                        checkedOnRadioButton();
+                        pieChart.invalidate();
+                    }
+                    if(testId==4){
+                        //next.setVisibility(View.INVISIBLE);
+                        openNewActivityTestB();
+                    }
+
+
             }
          });
 
@@ -219,8 +228,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     text.setText("Test A : " + dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
-
-
                 }
                 if(testId==1){
                     back.setVisibility(View.INVISIBLE);
@@ -303,7 +310,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    public void startChronometer() {
+        if (!running) {
+            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            chronometer.start();
+            running = true;
+        }
+    }
+    public void pauseChronometer() {
+        if (running) {
+            chronometer.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+            running = false;
+        }
+    }
+    public void resetChronometer() {
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        pauseOffset = 0;
+    }
 
+
+    public void doPositiveClick() {
+        // Do stuff here.
+        Log.i("FragmentAlertDialog", "Positive click!");
+    }
+
+    public void doNegativeClick() {
+        // Do stuff here.
+        Log.i("FragmentAlertDialog", "Negative click!");
+    }
 
     public void openNewActivity(){
         Intent intent = new Intent(this, Menu.class);
@@ -549,7 +584,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 button_move_up.setVisibility(View.INVISIBLE);
                                 button_move_down.setVisibility(View.VISIBLE);
                             }else if(acceZ >= 6){ //smartphoone in horizontal
-                                if(acceX < 1){
+                                if(acceX < -1){
                                    //Scroll to Top
                                     listButtons.scrollTo(scrollX, scrollY + velocity);
                                     listButtons.computeScroll();
