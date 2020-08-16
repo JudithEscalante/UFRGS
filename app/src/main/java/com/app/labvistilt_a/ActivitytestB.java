@@ -7,13 +7,16 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -25,6 +28,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.anychart.charts.Pie;
 import com.github.mikephil.charting.charts.BarChart;
@@ -54,7 +59,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ActivitytestB extends AppCompatActivity {
+public class ActivitytestB extends AppCompatActivity implements com.app.labvistilt.BoxDialogFragment.NoticeDialogListener {
 
     RadioGroup radioGroup;
     private float mLastX, mLastY, mLastZ;
@@ -94,6 +99,11 @@ public class ActivitytestB extends AppCompatActivity {
     Toolbar toolbar;
     TextView testType;
     private int testId = 1;
+    //chronometer
+    private Chronometer chronometer;
+    private long pauseOffset;
+    private boolean running;
+
 
 
 
@@ -103,6 +113,11 @@ public class ActivitytestB extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activitytest_b);
+
+        chronometer = findViewById(R.id.chronometer);
+        chronometer.setFormat("Time: %s");
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        startChronometer();
 
         Button menu = (Button) findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -124,22 +139,21 @@ public class ActivitytestB extends AppCompatActivity {
                 scrollBarLocation.clear();
                 totalCrimes.clear();
                 PeriodCrimes.clear();
-                if(testId>=1 && testId <3){
+                pauseChronometer();
+                // Create and show the dialog.
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                BoxDialogFragment newFragment = new BoxDialogFragment ().newInstance(chronometer.getText().toString());
+                newFragment.show(ft, "dialog");
+                if(testId>=1 && testId <=3){
                     back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
-
                     listButtons.scrollTo(0 ,0);
                     text.setText("Test B : "+dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
                     pieChart.invalidate();
                 }
-                if(testId==3){
-                    next.setVisibility(View.INVISIBLE);
-                    //openNewActivityTestB();
-                }
-
 
             }
         });
@@ -158,12 +172,12 @@ public class ActivitytestB extends AppCompatActivity {
                     text.setText("Test B : " + dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
-
                 }
                 if(testId==1){
                     back.setVisibility(View.INVISIBLE);
                 }
-
+                resetChronometer();
+                startChronometer();
             }
         });
 
@@ -240,6 +254,72 @@ public class ActivitytestB extends AppCompatActivity {
 
     }
 
+    public void showNoticeDialog() {
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new BoxDialogFragment();
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+    }
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        resetChronometer();
+        startChronometer();
+        Log.i("Sensor", "TestId: " + testId);
+        if(testId==4){
+            openNewActivity();
+        }
+
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        final TextView text = (TextView) findViewById(R.id.testType);
+        startChronometer();
+        scrollBarLocation.clear();
+        totalCrimes.clear();
+        PeriodCrimes.clear();
+        if(testId>1 && testId <3) {
+            testId = testId - 1;
+            dataSize = showTest(testId);
+            text.setText("Test B : " + dataSize);
+            listButtons.scrollTo(0, 0);
+            loadScrollBar();
+            checkedOnRadioButton();
+        }else if(testId==3){
+            dataSize = showTest(testId);
+            text.setText("Test B : " + dataSize);
+            listButtons.scrollTo(0, 0);
+            loadScrollBar();
+            checkedOnRadioButton();
+        }
+        Log.i("Sensor", "TestId: " + testId);
+    }
+
+    public void startChronometer() {
+        if (!running) {
+            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            chronometer.start();
+            running = true;
+        }
+    }
+    public void pauseChronometer() {
+        if (running) {
+            chronometer.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+            running = false;
+        }
+    }
+    public void resetChronometer() {
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        pauseOffset = 0;
+    }
+
     public void openNewActivity(){
         Intent intent = new Intent(this, com.app.labvistilt.Menu.class);
         startActivity(intent);
@@ -285,8 +365,6 @@ public class ActivitytestB extends AppCompatActivity {
         if(test==1) st = "small";
         if(test==2) st = "medium";
         if(test==3) st = "large";
-        if(test==4) st = "4";
-        if(test==5) st = "5";
         return st;
     }
 

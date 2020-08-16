@@ -68,7 +68,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, com.app.labvistilt.BoxDialogFragment.NoticeDialogListener {
 
     private static final String TAG = "MyActivity";
     RadioGroup radioGroup;
@@ -184,32 +184,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 totalCrimes.clear();
                 PeriodCrimes.clear();
                 pauseChronometer();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 // Create and show the dialog.
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 BoxDialogFragment newFragment = new BoxDialogFragment ().newInstance(chronometer.getText().toString());
                 newFragment.show(ft, "dialog");
-                if(newFragment.isVisible()){
-                    resetChronometer();
-                    pauseChronometer();
-                }else{
-                    startChronometer();
+
+                if(testId>=1 && testId <=3){
+                    back.setVisibility(View.VISIBLE);
+                    testId = testId +1;
+                    dataSize = showTest(testId);
+                    listButtons.scrollTo(0 ,0);
+                    text.setText("Test A : "+dataSize);
+                    loadScrollBar();
+                    checkedOnRadioButton();
+                    pieChart.invalidate();
                 }
-
-                    if(testId>=1 && testId <=3){
-                        back.setVisibility(View.VISIBLE);
-                        testId = testId +1;
-                        dataSize = showTest(testId);
-                        listButtons.scrollTo(0 ,0);
-                        text.setText("Test A : "+dataSize);
-                        loadScrollBar();
-                        checkedOnRadioButton();
-                        pieChart.invalidate();
-                    }
-                    if(testId==4){
-                        //next.setVisibility(View.INVISIBLE);
-                        openNewActivityTestB();
-                    }
-
 
             }
          });
@@ -232,7 +221,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if(testId==1){
                     back.setVisibility(View.INVISIBLE);
                 }
-
+                resetChronometer();
+                startChronometer();
             }
         });
 
@@ -256,23 +246,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-
-
-      /*  next.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                // Create and show the dialog.
-                BoxDialogFragment newFragment = new BoxDialogFragment ();
-                newFragment.show(ft, "dialog");
-            }
-        });*/
-
         mInitialized = false;
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         //accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER_UNCALIBRATED);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
 
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
         mLayout = (NestedScrollView) findViewById(R.id.scrollView);
@@ -310,6 +287,44 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    public void showNoticeDialog() {
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new BoxDialogFragment();
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+    }
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        resetChronometer();
+        startChronometer();
+        if(testId==4){
+            openNewActivityTestB();
+        }
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        final TextView text = (TextView) findViewById(R.id.testType);
+        startChronometer();
+        scrollBarLocation.clear();
+        totalCrimes.clear();
+        PeriodCrimes.clear();
+        if(testId>1 && testId <=4) {
+            testId = testId - 1;
+            dataSize = showTest(testId);
+            text.setText("Test A : " + dataSize);
+            listButtons.scrollTo(0, 0);
+            loadScrollBar();
+            checkedOnRadioButton();
+        }
+    }
+
     public void startChronometer() {
         if (!running) {
             chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
@@ -330,15 +345,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-    public void doPositiveClick() {
-        // Do stuff here.
-        Log.i("FragmentAlertDialog", "Positive click!");
-    }
 
-    public void doNegativeClick() {
-        // Do stuff here.
-        Log.i("FragmentAlertDialog", "Negative click!");
-    }
 
     public void openNewActivity(){
         Intent intent = new Intent(this, Menu.class);
