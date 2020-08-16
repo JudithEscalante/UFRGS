@@ -324,7 +324,7 @@
                                             <Button
                                                 android:id="@+id/button_move_up"
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="74dp"
                                                 android:background="@drawable/arrow_up"
                                                 android:text=""
                                                 android:visibility="invisible" />
@@ -332,7 +332,7 @@
                                             <Button
                                                 android:id="@+id/button_move_down"
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="74dp"
                                                 android:background="@drawable/arrow_down"
                                                 android:text=""
                                                 android:visibility="invisible" />
