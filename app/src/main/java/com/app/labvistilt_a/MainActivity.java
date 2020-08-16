@@ -263,7 +263,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         mInitialized = false;
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER_UNCALIBRATED);
+        //accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER_UNCALIBRATED);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 
         listButtons = (LinearLayout) findViewById(R.id.scrollBar);
