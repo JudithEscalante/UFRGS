@@ -153,124 +153,6 @@
                             tools:ignore="MissingConstraints" />   -->
 
 
-
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:stretchColumns="*"
-                        tools:ignore="MissingConstraints">
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp">
-
-                            <LinearLayout
-                                android:layout_width="226dp"
-                                android:layout_height="75dp"
-                                android:orientation="horizontal">
-
-                                <RadioGroup
-                                    android:id="@+id/radioGroup"
-                                    android:layout_width="96dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="bottom|start"
-                                    android:layout_marginTop="@dimen/fab_margin"
-                                    >
-
-                                    <RadioButton
-                                        android:id="@+id/radioButtonLocation"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:checked="true"
-
-                                        android:text="Location" />
-
-                                    <RadioButton
-                                        android:id="@+id/radioButtonCrime"
-                                        android:layout_width="84dp"
-                                        android:layout_height="wrap_content"
-
-                                        android:text="Crime" />
-                                </RadioGroup>
-
-
-
-
-
-                                <LinearLayout
-                                    android:layout_width="95dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/fab_margin"
-                                    android:orientation="vertical"
-                                    android:visibility="invisible">
-
-
-                                    <TextView
-                                        android:id="@+id/textView3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Speed: " />
-
-                                    <TextView
-                                        android:id="@+id/velocity"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1" />
-
-                                    <Switch
-                                        android:id="@+id/switchButton"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Button" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                        </TableRow>
-
-                        <!--<TableRow>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="X-Axis"
-                                android:textSize="14sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Y-Axis"
-                                android:textSize="14sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Z-Axis"
-                                android:textSize="14sp" />
-                        </TableRow> -->
-
-                        <!--<TableRow>
-                            <TextView
-                                android:id="@+id/x_axis"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center" />
-                            <TextView
-                                android:id="@+id/y_axis"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center" />
-                            <TextView
-                                android:id="@+id/z_axis"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center" />
-                        </TableRow> -->
-                    </TableLayout>
-
                     <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -342,7 +224,6 @@
                                             android:layout_height="wrap_content">
 
 
-
                                             <Button
                                                 android:id="@+id/button_play"
                                                 android:layout_width="58dp"
@@ -360,6 +241,126 @@
 
                         </TableRow>
 
+
+                    </TableLayout>
+
+                    <TableLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="75dp"
+                           android:stretchColumns="*"
+                           tools:ignore="MissingConstraints"
+                           android:visibility="invisible"
+                           >
+
+                           <TableRow
+                               android:layout_width="match_parent"
+                               android:layout_height="100dp">
+
+                               <LinearLayout
+                                   android:layout_width="226dp"
+                                   android:layout_height="75dp"
+                                   android:orientation="horizontal">
+
+                                   <RadioGroup
+                                       android:id="@+id/radioGroup"
+                                       android:layout_width="96dp"
+                                       android:layout_height="match_parent"
+                                       android:layout_gravity="bottom|start"
+                                       android:layout_marginTop="@dimen/fab_margin"
+                                       android:visibility="invisible"
+                                       >
+
+                                       <RadioButton
+                                           android:id="@+id/radioButtonLocation"
+                                           android:layout_width="wrap_content"
+                                           android:layout_height="wrap_content"
+                                           android:checked="true"
+
+                                           android:text="Location" />
+
+                                       <RadioButton
+                                           android:id="@+id/radioButtonCrime"
+                                           android:layout_width="84dp"
+                                           android:layout_height="wrap_content"
+
+                                           android:text="Crime" />
+                                   </RadioGroup>
+
+
+
+
+
+                                   <LinearLayout
+                                       android:layout_width="95dp"
+                                       android:layout_height="wrap_content"
+                                       android:layout_marginTop="@dimen/fab_margin"
+                                       android:orientation="vertical"
+                                       android:visibility="invisible">
+
+
+                                       <TextView
+                                           android:id="@+id/textView3"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="wrap_content"
+                                           android:layout_weight="1"
+                                           android:text="Speed: " />
+
+                                       <TextView
+                                           android:id="@+id/velocity"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="wrap_content"
+                                           android:layout_weight="1" />
+
+                                       <Switch
+                                           android:id="@+id/switchButton"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="wrap_content"
+                                           android:layout_weight="1"
+                                           android:text="Button" />
+                                   </LinearLayout>
+
+                               </LinearLayout>
+
+                           </TableRow>
+
+                           <!--<TableRow>
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="match_parent"
+                                   android:gravity="center"
+                                   android:text="X-Axis"
+                                   android:textSize="14sp" />
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:text="Y-Axis"
+                                   android:textSize="14sp" />
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:text="Z-Axis"
+                                   android:textSize="14sp" />
+                           </TableRow> -->
+
+                        <!--<TableRow>
+                            <TextView
+                                android:id="@+id/x_axis"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center" />
+                            <TextView
+                                android:id="@+id/y_axis"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center" />
+                            <TextView
+                                android:id="@+id/z_axis"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center" />
+                        </TableRow> -->
 
                     </TableLayout>
 

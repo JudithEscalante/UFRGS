@@ -3,9 +3,11 @@ package com.app.labvistilt;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.util.Log;
 
 import androidx.fragment.app.DialogFragment;
@@ -30,6 +32,7 @@ public class BoxDialogFragment  extends DialogFragment {
                 .setTitle("Copie o seu tempo no formulário")
                 //.setMessage("Você deseja avançar para próximo teste?")
                 .setMessage(getArguments().getString("msg"))
+
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -59,6 +62,14 @@ public class BoxDialogFragment  extends DialogFragment {
 
                     }
                 })
+                /*.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        dialogInterface.dismiss();
+                        //mListener.onDialogCancelClick(BoxDialogFragment.this);
+                    }
+                })*/
                 .create();
     }
 
@@ -74,6 +85,7 @@ public class BoxDialogFragment  extends DialogFragment {
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog);
         public void onDialogNegativeClick(DialogFragment dialog);
+        //public void onDialogCancelClick(DialogFragment dialog);
     }
 
 

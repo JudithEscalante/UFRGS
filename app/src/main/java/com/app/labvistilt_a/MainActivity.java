@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 // Create and show the dialog.
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 BoxDialogFragment newFragment = new BoxDialogFragment ().newInstance(chronometer.getText().toString());
+                newFragment.setCancelable(false);
                 newFragment.show(ft, "dialog");
 
                 Log.i("Sensor", "TestId main before: " + testId);
@@ -350,6 +351,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         Log.i("Sensor", "TestId main: " + testId);
     }
+
+
+
+
 
     public void startChronometer() {
         if (!running) {
