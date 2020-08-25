@@ -127,24 +127,34 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
             }
         });
 
-        dataSize = "small";
+        int inteiro = getIntent().getIntExtra("testId",9);
+        if(inteiro!=9){
+            try {
+                testId = inteiro;
+            }catch (NumberFormatException e){
+                Log.i("Sensor", "Error: getStringExtra " + testId);
+            }
+        }
+        dataSize = showTest(testId);
         final Button next = (Button) findViewById(R.id.next);
         final Button back = (Button) findViewById(R.id.back);
         final TextView text = (TextView) findViewById(R.id.testType);
-        back.setVisibility(View.INVISIBLE);
+        //back.setVisibility(View.INVISIBLE);
         text.setText("Test B : "+dataSize);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scrollBarLocation.clear();
-                totalCrimes.clear();
-                PeriodCrimes.clear();
+                //scrollBarLocation.clear();
+                //totalCrimes.clear();
+                //PeriodCrimes.clear();
                 pauseChronometer();
                 // Create and show the dialog.
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 BoxDialogFragment newFragment = new BoxDialogFragment ().newInstance(chronometer.getText().toString());
                 newFragment.show(ft, "dialog");
-                if(testId>=1 && testId <=3){
+
+                Log.i("Sensor", "TestId testB before: " + testId);
+                if(testId>=1){
                     back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
@@ -154,6 +164,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
                     checkedOnRadioButton();
                     pieChart.invalidate();
                 }
+                Log.i("Sensor", "TestId testB after: " + testId);
 
             }
         });
@@ -161,20 +172,23 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scrollBarLocation.clear();
-                totalCrimes.clear();
-                PeriodCrimes.clear();
-                if(testId>1 && testId <=3) {
+                //scrollBarLocation.clear();
+                //totalCrimes.clear();
+                //PeriodCrimes.clear();
+                if(testId>1) {
                     next.setVisibility(View.VISIBLE);
                     testId = testId - 1;
                     dataSize = showTest(testId);
                     listButtons.scrollTo(0, 0);
-                    text.setText("Test B : " + dataSize);
+                    text.setText("Test A : " + dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
+                    Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
+                    intent.putExtra("testId", testId);
+                    startActivity(intent);
                 }
                 if(testId==1){
-                    back.setVisibility(View.INVISIBLE);
+                    //back.setVisibility(View.INVISIBLE);
                 }
                 resetChronometer();
                 startChronometer();
@@ -268,11 +282,16 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         // User touched the dialog's positive button
         resetChronometer();
         startChronometer();
-        Log.i("Sensor", "TestId: " + testId);
-        if(testId==4){
+        if(testId%2 !=0){
+            Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
+            intent.putExtra("testId", testId);
+            //openMainActivity();
+            startActivity(intent);
+        }
+        Log.i("Sensor", "TestId testB: " + testId);
+        if(testId>=6){
             openNewActivity();
         }
-
 
     }
 
@@ -284,21 +303,22 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         scrollBarLocation.clear();
         totalCrimes.clear();
         PeriodCrimes.clear();
-        if(testId>1 && testId <3) {
+        if(testId>1) {
             testId = testId - 1;
             dataSize = showTest(testId);
             text.setText("Test B : " + dataSize);
             listButtons.scrollTo(0, 0);
             loadScrollBar();
             checkedOnRadioButton();
-        }else if(testId==3){
+        }
+        /*else if(testId==3){
             dataSize = showTest(testId);
             text.setText("Test B : " + dataSize);
             listButtons.scrollTo(0, 0);
             loadScrollBar();
             checkedOnRadioButton();
-        }
-        Log.i("Sensor", "TestId: " + testId);
+        }*/
+        Log.i("Sensor", "TestId testB: " + testId);
     }
 
     public void startChronometer() {
@@ -325,7 +345,10 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         startActivity(intent);
     }
 
-
+    public void openMainActivity(){
+        Intent intent = new Intent(this, com.app.labvistilt.MainActivity.class);
+        startActivity(intent);
+    }
     public void loadScrollBar(){
         try {
             loadData();
@@ -362,9 +385,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
 
     public String showTest(int test){
         String st = "";
-        if(test==1) st = "small";
-        if(test==2) st = "medium";
-        if(test==3) st = "large";
+        if(test==2) st = "small";
+        if(test==4) st = "medium";
+        if(test==6) st = "large";
         return st;
     }
 

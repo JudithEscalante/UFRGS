@@ -1,6 +1,7 @@
 package com.app.labvistilt;
 
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
@@ -66,6 +67,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, com.app.labvistilt.BoxDialogFragment.NoticeDialogListener {
@@ -171,25 +173,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        dataSize = "small";
+        int inteiro = getIntent().getIntExtra("testId",9);
+        if(inteiro!=9){
+            try {
+                testId = inteiro;
+            }catch (NumberFormatException e){
+                Log.i("Sensor", "Error: getStringExtra " + testId);
+            }
+        }
+        dataSize = showTest(testId);
         final Button next = (Button) findViewById(R.id.next);
         final Button back = (Button) findViewById(R.id.back);
         final TextView text = (TextView) findViewById(R.id.testType);
-        back.setVisibility(View.INVISIBLE);
+        //back.setVisibility(View.INVISIBLE);
+        if(testId==1){
+            back.setVisibility(View.INVISIBLE);
+
+        }
         text.setText("Test A : "+dataSize);
          next.setOnClickListener(new OnClickListener() {
          @Override
             public void onClick(View view) {
-                scrollBarLocation.clear();
-                totalCrimes.clear();
-                PeriodCrimes.clear();
+                //scrollBarLocation.clear();
+                //totalCrimes.clear();
+                //PeriodCrimes.clear();
                 pauseChronometer();
                 // Create and show the dialog.
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 BoxDialogFragment newFragment = new BoxDialogFragment ().newInstance(chronometer.getText().toString());
                 newFragment.show(ft, "dialog");
 
-                if(testId>=1 && testId <=3){
+                Log.i("Sensor", "TestId main before: " + testId);
+
+                if(testId>=1){
                     back.setVisibility(View.VISIBLE);
                     testId = testId +1;
                     dataSize = showTest(testId);
@@ -199,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     checkedOnRadioButton();
                     pieChart.invalidate();
                 }
+                Log.i("Sensor", "TestId main after: " + testId);
 
             }
          });
@@ -206,20 +223,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                scrollBarLocation.clear();
-                totalCrimes.clear();
-                PeriodCrimes.clear();
-                if(testId>1 && testId <=3) {
+                //scrollBarLocation.clear();
+                //totalCrimes.clear();
+                //45PeriodCrimes.clear();
+                if(testId>1) {
                     next.setVisibility(View.VISIBLE);
                     testId = testId - 1;
                     dataSize = showTest(testId);
                     listButtons.scrollTo(0, 0);
-                    text.setText("Test A : " + dataSize);
+                    text.setText("Test B : " + dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
+                    Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.ActivitytestB.class);
+                    intent.putExtra("testId", testId);
+                    startActivity(intent);
                 }
                 if(testId==1){
-                    back.setVisibility(View.INVISIBLE);
+                    //back.setVisibility(View.INVISIBLE);
                 }
                 resetChronometer();
                 startChronometer();
@@ -301,11 +321,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // User touched the dialog's positive button
         resetChronometer();
         startChronometer();
-        if(testId==4){
-            openNewActivityTestB();
+        if(testId%2==0){
+            Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.ActivitytestB.class);
+            intent.putExtra("testId", testId);
+            //openNewActivityTestB();
+            startActivity(intent);
         }
-
+        Log.i("Sensor", "TestId main: " + testId);
     }
+
+
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
@@ -315,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         scrollBarLocation.clear();
         totalCrimes.clear();
         PeriodCrimes.clear();
-        if(testId>1 && testId <=4) {
+        if(testId>1 ) {
             testId = testId - 1;
             dataSize = showTest(testId);
             text.setText("Test A : " + dataSize);
@@ -323,6 +348,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             loadScrollBar();
             checkedOnRadioButton();
         }
+        Log.i("Sensor", "TestId main: " + testId);
     }
 
     public void startChronometer() {
@@ -402,8 +428,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public String showTest(int test){
         String st = "";
         if(test==1) st = "small";
-        if(test==2) st = "medium";
-        if(test==3) st = "large";
+        if(test==3) st = "medium";
+        if(test==5) st = "large";
         return st;
     }
 
@@ -554,14 +580,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 listButtons.scrollTo(scrollX, scrollY + velocity);
                                 listButtons.computeScroll();
                                 listButtons.invalidate();
-                                Log.i("Sensor", "scroll Up - vertical");
+                                //Log.i("Sensor", "scroll Up - vertical");
                                 //Log.i("Sensor", "Scroll X: " + scrollX);
                                 //Log.i("Sensor", "Scroll Y: " + scrollY);
                                 //Log.i("Sensor", "velocity: " + velocity);
                                 //Log.i("Sensor", "dataSize: " + dataSize);
-                                Log.i("Sensor", "acceX: " + acceX);
-                                Log.i("Sensor", "acceY: " + acceY);
-                                Log.i("Sensor", "acceZ: " + acceZ);
+                                //Log.i("Sensor", "acceX: " + acceX);
+                                //Log.i("Sensor", "acceY: " + acceY);
+                                //Log.i("Sensor", "acceZ: " + acceZ);
                                 //mLayout.setBackgroundColor(Color.GREEN);
                                 button_move_up.setVisibility(View.VISIBLE);
                                 button_move_down.setVisibility(View.INVISIBLE);
@@ -581,12 +607,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 listButtons.scrollTo(scrollX, scrollY - velocity);
                                 listButtons.computeScroll();
                                 listButtons.invalidate();
-                                Log.i("Sensor", "scroll Bottom - vertical");
+                                //Log.i("Sensor", "scroll Bottom - vertical");
                                 //Log.i("Sensor", "Scroll X: " + scrollX);
                                 //Log.i("Sensor", "Scroll Y: " + scrollY);
-                                Log.i("Sensor", "acceX: " + acceX);
-                                Log.i("Sensor", "acceY: " + acceY);
-                                Log.i("Sensor", "acceZ: " + acceZ);
+                                //Log.i("Sensor", "acceX: " + acceX);
+                                //Log.i("Sensor", "acceY: " + acceY);
+                                //Log.i("Sensor", "acceZ: " + acceZ);
                                 //mLayout.setBackgroundColor(Color.BLUE);
                                 button_move_up.setVisibility(View.INVISIBLE);
                                 button_move_down.setVisibility(View.VISIBLE);
@@ -596,10 +622,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     listButtons.scrollTo(scrollX, scrollY + velocity);
                                     listButtons.computeScroll();
                                     listButtons.invalidate();
-                                    Log.i("Sensor", "scroll Up - horizontal");
-                                    Log.i("Sensor", "acceX: " + acceX);
-                                    Log.i("Sensor", "acceY: " + acceY);
-                                    Log.i("Sensor", "acceZ: " + acceZ);
+                                    //Log.i("Sensor", "scroll Up - horizontal");
+                                    //Log.i("Sensor", "acceX: " + acceX);
+                                    //Log.i("Sensor", "acceY: " + acceY);
+                                    //Log.i("Sensor", "acceZ: " + acceZ);
                                     button_move_up.setVisibility(View.VISIBLE);
                                     button_move_down.setVisibility(View.INVISIBLE);
                                 }else if(acceX >= 1 && acceX <=2){
@@ -616,10 +642,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     listButtons.scrollTo(scrollX, scrollY - velocity);
                                     listButtons.computeScroll();
                                     listButtons.invalidate();
-                                    Log.i("Sensor", "scroll Bottom - horizontal");
-                                    Log.i("Sensor", "acceX: " + acceX);
-                                    Log.i("Sensor", "acceY: " + acceY);
-                                    Log.i("Sensor", "acceZ: " + acceZ);
+                                    //Log.i("Sensor", "scroll Bottom - horizontal");
+                                    //Log.i("Sensor", "acceX: " + acceX);
+                                    //Log.i("Sensor", "acceY: " + acceY);
+                                   //Log.i("Sensor", "acceZ: " + acceZ);
                                     //mLayout.setBackgroundColor(Color.BLUE);
                                     button_move_up.setVisibility(View.INVISIBLE);
                                     button_move_down.setVisibility(View.VISIBLE);
