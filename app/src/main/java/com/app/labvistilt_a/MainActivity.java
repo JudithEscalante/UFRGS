@@ -1,5 +1,6 @@
 package com.app.labvistilt;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +33,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -325,8 +329,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(testId%2==0){
             Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.ActivitytestB.class);
             intent.putExtra("testId", testId);
-            //openNewActivityTestB();
-            startActivity(intent);
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+            startActivity(intent, bundle);
         }
         Log.i("Sensor", "TestId main: " + testId);
     }

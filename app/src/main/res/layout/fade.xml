@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fade xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <targets>
+        <target android:excludeId="@android:id/statusBarBackground" />
+        <target android:excludeId="@android:id/navigationBarBackground" />
+        <target android:excludeId="@+id/screenA" />
+        <target android:excludeId="@+id/screenB" />
+    </targets>
+
+</fade>

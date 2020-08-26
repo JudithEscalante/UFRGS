@@ -14,14 +14,14 @@
        >
         <activity android:name="com.app.labvistilt.ActivitytestB"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
             />
         <activity
             android:name="com.app.labvistilt.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
             />

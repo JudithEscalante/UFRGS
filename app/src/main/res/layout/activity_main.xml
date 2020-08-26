@@ -8,7 +8,6 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-
     <!--- <ImageView
         android:paddingTop="80dip"
         android:layout_width="wrap_content"
@@ -26,7 +25,9 @@
             android:layout_margin="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="-123dp">
+            tools:layout_editor_absoluteY="-123dp"
+            android:id="@+id/screenA"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
