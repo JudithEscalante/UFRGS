@@ -3,6 +3,7 @@ package com.app.labvistilt;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String generalNameM = "ML1 'Inclination'";
     private String generalNameL = "LL1 'Inclination'";
 
+    ProgressDialog nDialog;
     Button button_play;
     Button button_pause;
     Switch buttonFinger;
@@ -332,7 +334,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(testId%2==0){
             Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.ActivitytestB.class);
             intent.putExtra("testId", testId);
+            nDialog = new ProgressDialog(MainActivity.this);
+            nDialog.setMessage("Loading..");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();
             Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+
+
+
             startActivity(intent, bundle);
         }
         Log.i("Sensor", "TestId main: " + testId);

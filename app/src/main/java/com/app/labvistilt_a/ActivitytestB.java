@@ -1,6 +1,7 @@
 package com.app.labvistilt;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
@@ -100,6 +101,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
     TextView titleChart;
     Toolbar toolbar;
     TextView testType;
+    ProgressDialog nDialog;
     private int testId = 1;
     //chronometer
     private Chronometer chronometer;
@@ -295,6 +297,11 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         if(testId%2 !=0){
             Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
             intent.putExtra("testId", testId);
+            nDialog = new ProgressDialog(ActivitytestB.this);
+            nDialog.setMessage("Loading..");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();
             Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(ActivitytestB.this).toBundle();
             startActivity(intent, bundle);
         }
