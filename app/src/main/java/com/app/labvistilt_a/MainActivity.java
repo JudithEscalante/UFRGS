@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String dataSize;
     private String dialogBox;
     private int maxScrollY = 2950;
+    private String generalNameS = "SL1 'Inclination'";
+    private String generalNameM = "ML1 'Inclination'";
+    private String generalNameL = "LL1 'Inclination'";
 
     Button button_play;
     Button button_pause;
@@ -177,10 +180,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        final TextView text = (TextView) findViewById(R.id.testType);
+        text.setText(generalNameS);
         int inteiro = getIntent().getIntExtra("testId",9);
         if(inteiro!=9){
             try {
                 testId = inteiro;
+                text.setText(((testId==1)) ? generalNameS: ((testId==3) ? generalNameM: generalNameL));
             }catch (NumberFormatException e){
                 Log.i("Sensor", "Error: getStringExtra " + testId);
             }
@@ -188,13 +194,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dataSize = showTest(testId);
         final Button next = (Button) findViewById(R.id.next);
         final Button back = (Button) findViewById(R.id.back);
-        final TextView text = (TextView) findViewById(R.id.testType);
+
         //back.setVisibility(View.INVISIBLE);
         if(testId==1){
             back.setVisibility(View.INVISIBLE);
-
         }
-        text.setText("Test A : "+dataSize);
+
          next.setOnClickListener(new OnClickListener() {
          @Override
             public void onClick(View view) {
@@ -215,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     testId = testId +1;
                     dataSize = showTest(testId);
                     listButtons.scrollTo(0 ,0);
-                    text.setText("Test A : "+dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
                     pieChart.invalidate();
@@ -236,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     testId = testId - 1;
                     dataSize = showTest(testId);
                     listButtons.scrollTo(0, 0);
-                    text.setText("Test B : " + dataSize);
+                    //text.setText(((dataSize.equals(1)) ? generalNameS: ((dataSize.equals(3)) ? generalNameM: generalNameL)));
                     loadScrollBar();
                     checkedOnRadioButton();
                     Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.ActivitytestB.class);
@@ -306,7 +310,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //anyChartView.setVisibility(View.INVISIBLE);
 
         loadScrollBar();
-
         checkedOnRadioButton();
         //************* pie chart ****************
 
@@ -348,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(testId>1 ) {
             testId = testId - 1;
             dataSize = showTest(testId);
-            text.setText("Test A : " + dataSize);
+            //text.setText("Test A : " + dataSize);
             listButtons.scrollTo(0, 0);
             loadScrollBar();
             checkedOnRadioButton();

@@ -106,6 +106,10 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
     private long pauseOffset;
     private boolean running;
 
+    private String generalNameS = "SL1 'Manual'";
+    private String generalNameM = "ML1 'Manual'";
+    private String generalNameL = "LL1 'Manual'";
+
 
 
 
@@ -129,10 +133,13 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
             }
         });
 
+        final TextView text = (TextView) findViewById(R.id.testType);
+
         int inteiro = getIntent().getIntExtra("testId",9);
         if(inteiro!=9){
             try {
                 testId = inteiro;
+                text.setText(((testId==2)) ? generalNameS: ((testId==4) ? generalNameM: generalNameL));
             }catch (NumberFormatException e){
                 Log.i("Sensor", "Error: getStringExtra " + testId);
             }
@@ -140,9 +147,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         dataSize = showTest(testId);
         final Button next = (Button) findViewById(R.id.next);
         final Button back = (Button) findViewById(R.id.back);
-        final TextView text = (TextView) findViewById(R.id.testType);
+
         //back.setVisibility(View.INVISIBLE);
-        text.setText("Test B : "+dataSize);
+        //text.setText("Test B : "+dataSize);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +169,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
                     testId = testId +1;
                     dataSize = showTest(testId);
                     listButtons.scrollTo(0 ,0);
-                    text.setText("Test B : "+dataSize);
+                    //text.setText("Test B : "+dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
                     pieChart.invalidate();
@@ -183,7 +190,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
                     testId = testId - 1;
                     dataSize = showTest(testId);
                     listButtons.scrollTo(0, 0);
-                    text.setText("Test A : " + dataSize);
+                    //text.setText("Test A : " + dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
                     Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
@@ -309,7 +316,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         if(testId>1) {
             testId = testId - 1;
             dataSize = showTest(testId);
-            text.setText("Test B : " + dataSize);
+            //text.setText("Test B : " + dataSize);
             listButtons.scrollTo(0, 0);
             loadScrollBar();
             checkedOnRadioButton();
