@@ -108,9 +108,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
     private long pauseOffset;
     private boolean running;
 
-    private String generalNameS = "SL1 'Manual'";
-    private String generalNameM = "ML1 'Manual'";
-    private String generalNameL = "LL1 'Manual'";
+    private String generalNameS = "SL2 'Normal'";
+    private String generalNameM = "ML2 'Normal'";
+    private String generalNameL = "LL2 'Normal'";
 
 
 
