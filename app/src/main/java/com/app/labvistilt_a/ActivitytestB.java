@@ -298,6 +298,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
             Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
             intent.putExtra("testId", testId);
             nDialog = new ProgressDialog(ActivitytestB.this);
+
             nDialog.setMessage("Loading..");
             nDialog.setIndeterminate(false);
             nDialog.setCancelable(true);
