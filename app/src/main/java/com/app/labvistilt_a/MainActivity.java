@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String dataSize;
     private String dialogBox;
     private int maxScrollY = 2950;
-    private String generalNameS = "SL1 'Inclination'";
-    private String generalNameM = "ML1 'Inclination'";
-    private String generalNameL = "LL1 'Inclination'";
+    private String generalNameS = "SL1 Tilt";
+    private String generalNameM = "ML1 Tilt";
+    private String generalNameL = "LL1 Tilt";
 
     ProgressDialog nDialog;
     Button button_play;
@@ -424,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             RadioButton location = (RadioButton) findViewById(R.id.radioButtonLocation);
             RadioButton crime = (RadioButton) findViewById(R.id.radioButtonCrime);
             if(location.isChecked()){
-                if(dataSize.equals("small")) maxScrollY = 3300;
+                if(dataSize.equals("small")) maxScrollY = 1215;   //size30 = 3300
                 if(dataSize.equals("medium")) maxScrollY = 7020;
                 if(dataSize.equals("large")) maxScrollY = 14646;
             }
@@ -701,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         try {
             int count =0;
             JSONArray principalArray = json.getJSONArray(dataSize);
-            count = ((dataSize.equals("small")) ? 30: ((dataSize.equals("medium")) ? 60: 120));
+            count = ((dataSize.equals("small")) ? 15: ((dataSize.equals("medium")) ? 60: 120));
             scrollBarLocation.add("All location");
             totalCrimes.put("All crimes",0);
 

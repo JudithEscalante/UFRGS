@@ -108,9 +108,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
     private long pauseOffset;
     private boolean running;
 
-    private String generalNameS = "SL2 'Normal'";
-    private String generalNameM = "ML2 'Normal'";
-    private String generalNameL = "LL2 'Normal'";
+    private String generalNameS = "SL2 Manual";
+    private String generalNameM = "ML2 Manual";
+    private String generalNameL = "LL2 Manual";
 
 
 
@@ -446,7 +446,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         try {
             int count =0;
             JSONArray principalArray = json.getJSONArray(dataSize);
-            count = ((dataSize.equals("small")) ? 30: ((dataSize.equals("medium")) ? 60: 120));
+            count = ((dataSize.equals("small")) ? 15: ((dataSize.equals("medium")) ? 60: 120));
             scrollBarLocation.add("All location");
             totalCrimes.put("All crimes",0);
 
