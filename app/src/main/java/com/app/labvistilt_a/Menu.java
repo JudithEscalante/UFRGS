@@ -37,7 +37,7 @@ public class Menu extends AppCompatActivity {
         small.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMainActivitySmall();
+                openNewActivityTestB();
             }
         });
 
@@ -77,6 +77,7 @@ public class Menu extends AppCompatActivity {
 
     public void openNewActivityTestB(){
         Intent intent = new Intent(this, ActivitytestB.class);
+        intent.putExtra("option", "small");
         startActivity(intent);
     }
 

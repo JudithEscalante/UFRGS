@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String dataSize;
     private String dialogBox;
     private int maxScrollY = 2950;
-    private String generalNameS = "SL1 Tilt";
-    private String generalNameM = "ML1 Tilt";
-    private String generalNameL = "LL1 Tilt";
+    private String generalNameS = "SL2 Tilt";
+    private String generalNameM = "ML2 Tilt";
+    private String generalNameL = "LL2 Tilt";
 
     ProgressDialog nDialog;
     Button button_play;
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(inteiro!=9){
             try {
                 testId = inteiro;
-                text.setText(((testId==1)) ? generalNameS: ((testId==3) ? generalNameM: generalNameL));
+                text.setText(((testId==2)) ? generalNameS: ((testId==4) ? generalNameM: generalNameL));
             }catch (NumberFormatException e){
                 Log.i("Sensor", "Error: getStringExtra " + testId);
             }
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // User touched the dialog's positive button
         resetChronometer();
         startChronometer();
-        if(testId%2==0){
+        if(testId%2!=0){
             Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.ActivitytestB.class);
             intent.putExtra("testId", testId);
             nDialog = new ProgressDialog(MainActivity.this);
@@ -346,6 +346,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             startActivity(intent, bundle);
         }
         Log.i("Sensor", "TestId main: " + testId);
+        if(testId>=6){
+            openNewActivity();
+        }
+
     }
 
 
@@ -449,9 +453,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public String showTest(int test){
         String st = "";
-        if(test==1) st = "small";
-        if(test==3) st = "medium";
-        if(test==5) st = "large";
+        if(test==2) st = "small";
+        if(test==4) st = "medium";
+        if(test==6) st = "large";
         return st;
     }
 

@@ -108,9 +108,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
     private long pauseOffset;
     private boolean running;
 
-    private String generalNameS = "SL2 Manual";
-    private String generalNameM = "ML2 Manual";
-    private String generalNameL = "LL2 Manual";
+    private String generalNameS = "SL1 Manual";
+    private String generalNameM = "ML1 Manual";
+    private String generalNameL = "LL1 Manual";
 
 
 
@@ -136,12 +136,12 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         });
 
         final TextView text = (TextView) findViewById(R.id.testType);
-
+        text.setText(generalNameS);
         int inteiro = getIntent().getIntExtra("testId",9);
         if(inteiro!=9){
             try {
                 testId = inteiro;
-                text.setText(((testId==2)) ? generalNameS: ((testId==4) ? generalNameM: generalNameL));
+                text.setText(((testId==1)) ? generalNameS: ((testId==3) ? generalNameM: generalNameL));
             }catch (NumberFormatException e){
                 Log.i("Sensor", "Error: getStringExtra " + testId);
             }
@@ -151,6 +151,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         final Button back = (Button) findViewById(R.id.back);
 
         //back.setVisibility(View.INVISIBLE);
+        if(testId==1){
+            back.setVisibility(View.INVISIBLE);
+        }
         //text.setText("Test B : "+dataSize);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,7 +297,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         // User touched the dialog's positive button
         resetChronometer();
         startChronometer();
-        if(testId%2 !=0){
+        if(testId%2 ==0){
             Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
             intent.putExtra("testId", testId);
             nDialog = new ProgressDialog(ActivitytestB.this);
@@ -307,9 +310,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
             startActivity(intent, bundle);
         }
         Log.i("Sensor", "TestId testB: " + testId);
-        if(testId>=6){
-            openNewActivity();
-        }
+        //if(testId>=6){
+        //    openNewActivity();
+        //}
 
     }
 
@@ -404,9 +407,9 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
 
     public String showTest(int test){
         String st = "";
-        if(test==2) st = "small";
-        if(test==4) st = "medium";
-        if(test==6) st = "large";
+        if(test==1) st = "small";
+        if(test==3) st = "medium";
+        if(test==5) st = "large";
         return st;
     }
 
