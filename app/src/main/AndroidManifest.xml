@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.app.labvistilt">
+    package="com.app.labvistilt_a">
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -10,28 +10,32 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-       >
-        <activity android:name="com.app.labvistilt.ActivitytestB"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.DefaultActivity"
-            android:screenOrientation="landscape"
+        android:theme="@style/AppTheme">
+        <activity android:name=".TestTilt"
             android:configChanges="orientation|keyboardHidden"
-            />
-        <activity
-            android:name="com.app.labvistilt.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.DefaultActivity"
-            android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden"
-            />
+            >
+        </activity>
         <activity
-            android:name="com.app.labvistilt.Menu"
+            android:name=".ActivitytestB"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"
-
-            android:configChanges="orientation|keyboardHidden">
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity" />
+        <activity
+            android:name=".Menu"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

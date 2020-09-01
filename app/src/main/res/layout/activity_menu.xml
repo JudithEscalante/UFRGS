@@ -65,6 +65,18 @@
                   android:text="Teste B"
                   android:visibility="invisible"/>-->
 
+            <Button
+                android:id="@+id/medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="64dp"
+                android:background="@drawable/animatiobutton"
+                android:text="TEST"
+                />
+
               <Button
                   android:id="@+id/small"
                   android:layout_width="wrap_content"

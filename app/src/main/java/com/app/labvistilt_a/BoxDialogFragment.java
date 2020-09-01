@@ -1,4 +1,4 @@
-package com.app.labvistilt;
+package com.app.labvistilt_a;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -52,7 +52,7 @@ public class BoxDialogFragment  extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // do something
                         //openMainActivity();
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        Intent intent = new Intent(getActivity(), com.app.labvistilt_a.MainActivity.class);
                         intent.putExtra("dialog", "ok");
                         Log.i("FragmentAlertDialog", "Positive click!");
                         //dialogAnswer = "ok";

@@ -1,4 +1,4 @@
-package com.app.labvistilt;
+package com.app.labvistilt_a;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.app.labvistilt_a.TestTilt;
 
 public class Menu extends AppCompatActivity {
 
@@ -41,15 +43,15 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-        /*medium = (Button) findViewById(R.id.medium);
+        medium = (Button) findViewById(R.id.medium);
         medium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMainActivityMedium();
+                openTestActivity();
             }
         });
 
-        large = (Button) findViewById(R.id.large);
+        /*large = (Button) findViewById(R.id.large);
         large.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,9 +82,17 @@ public class Menu extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+
     public void openMainActivitySmall(){
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("option", "small");
+        startActivity(intent);
+    }
+
+    public void openTestActivity(){
+        Intent intent = new Intent(this, TestTilt.class);
+        intent.putExtra("option", "medium");
         startActivity(intent);
     }
 

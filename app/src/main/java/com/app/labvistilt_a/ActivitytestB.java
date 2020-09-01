@@ -1,4 +1,4 @@
-package com.app.labvistilt;
+package com.app.labvistilt_a;
 
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
@@ -62,7 +62,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ActivitytestB extends AppCompatActivity implements com.app.labvistilt.BoxDialogFragment.NoticeDialogListener {
+public class ActivitytestB extends AppCompatActivity implements com.app.labvistilt_a.BoxDialogFragment.NoticeDialogListener {
 
     RadioGroup radioGroup;
     private float mLastX, mLastY, mLastZ;
@@ -195,7 +195,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
                     //text.setText("Test A : " + dataSize);
                     loadScrollBar();
                     checkedOnRadioButton();
-                    Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), com.app.labvistilt_a.MainActivity.class);
                     intent.putExtra("testId", testId);
                     startActivity(intent);
                 }
@@ -295,7 +295,7 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
         resetChronometer();
         startChronometer();
         if(testId%2 !=0){
-            Intent intent = new Intent(getApplicationContext(), com.app.labvistilt.MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), com.app.labvistilt_a.MainActivity.class);
             intent.putExtra("testId", testId);
             nDialog = new ProgressDialog(ActivitytestB.this);
 
@@ -360,12 +360,12 @@ public class ActivitytestB extends AppCompatActivity implements com.app.labvisti
     }
 
     public void openNewActivity(){
-        Intent intent = new Intent(this, com.app.labvistilt.Menu.class);
+        Intent intent = new Intent(this, com.app.labvistilt_a.Menu.class);
         startActivity(intent);
     }
 
     public void openMainActivity(){
-        Intent intent = new Intent(this, com.app.labvistilt.MainActivity.class);
+        Intent intent = new Intent(this, com.app.labvistilt_a.MainActivity.class);
         startActivity(intent);
     }
     public void loadScrollBar(){
