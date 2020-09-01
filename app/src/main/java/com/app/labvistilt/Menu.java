@@ -41,15 +41,15 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-        /*medium = (Button) findViewById(R.id.medium);
+        medium = (Button) findViewById(R.id.medium);
         medium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMainActivityMedium();
+                openTestActivity();
             }
         });
 
-        large = (Button) findViewById(R.id.large);
+        /*large = (Button) findViewById(R.id.large);
         large.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +78,12 @@ public class Menu extends AppCompatActivity {
     public void openNewActivityTestB(){
         Intent intent = new Intent(this, ActivitytestB.class);
         intent.putExtra("option", "small");
+        startActivity(intent);
+    }
+
+    public void openTestActivity(){
+        Intent intent = new Intent(this, TestTilt.class);
+        intent.putExtra("option", "medium");
         startActivity(intent);
     }
 

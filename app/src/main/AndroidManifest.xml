@@ -10,28 +10,31 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-       >
-        <activity android:name="com.app.labvistilt.ActivitytestB"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.DefaultActivity"
-            android:screenOrientation="landscape"
+        android:theme="@style/AppTheme">
+        <activity android:name=".TestTilt"
             android:configChanges="orientation|keyboardHidden"
-            />
-        <activity
-            android:name="com.app.labvistilt.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.DefaultActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity">
+        </activity>
+        <activity
+            android:name=".ActivitytestB"
             android:configChanges="orientation|keyboardHidden"
-            />
-        <activity
-            android:name="com.app.labvistilt.Menu"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"
-
-            android:configChanges="orientation|keyboardHidden">
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.DefaultActivity" />
+        <activity
+            android:name=".Menu"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
